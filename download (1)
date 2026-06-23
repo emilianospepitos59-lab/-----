@@ -1,0 +1,18 @@
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local editor settings
+.vscode/
+.idea/
+
+# Local dependency/cache folders
+node_modules/
+.cache/
+
+# Codex workspace folders
+work/
+outputs/
+.agents/
+.codex/
