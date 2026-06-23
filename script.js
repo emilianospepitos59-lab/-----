@@ -1,348 +1,251 @@
 /* ============================================================
-   НЕ-ДУЖЕ-СЕКРЕТНО — Скрипт
+   НЕ-ДУЖЕ-СЕКРЕТНО — interactions and translation
    ============================================================ */
 
 'use strict';
 
-/* ─────────────────────────────────────────────
-   CUSTOM CURSOR
-───────────────────────────────────────────── */
+const translations = {
+  uk: {
+    navDossier: 'Досьє',
+    navTimeline: 'Хронологія',
+    navGallery: 'Галерея',
+    heroKicker: 'особова справа',
+    heroSubtitle: 'Особистий архів версій, фотофайлів і дивних етапів.',
+    openFile: 'Відкрити досьє',
+    dossierTitle: 'Картка досьє',
+    stampVerified: 'Перевірено',
+    fieldName: 'Ім\'я',
+    fieldStatus: 'Статус',
+    fieldStatusValue: 'активний архів',
+    fieldMode: 'Режим',
+    fieldModeValue: 'військовий файл / особиста хронологія',
+    fieldAccess: 'Доступ',
+    fieldAccessValue: 'не дуже секретно',
+    dossierText: 'Це не офіційний архів і не серйозна біографія. Це темний файл із кількома версіями, спогадами, фото й трохи театру.',
+    timelineTitle: 'Хронологія версій',
+    galleryTitle: 'Фотоархів',
+    galleryMap: 'маршрут',
+    gallerySignal: 'сигнал',
+    galleryRedacted: 'вилучено',
+    footerText: 'усіх прав не захищено',
+    versions: [
+      {
+        id: 'FILE-01',
+        title: 'ВДВ 2022',
+        text: 'Перший знімок у справі. Сирий, темний, але важливий.',
+        mark: '2022',
+        bg: 'linear-gradient(135deg, #0c130d, #1c2918 48%, #060806)'
+      },
+      {
+        id: 'FILE-02',
+        title: 'Russian 2022',
+        text: 'Інша версія того самого року: холодніша, жорсткіша, майже документальна.',
+        mark: 'RU',
+        bg: 'linear-gradient(135deg, #100d0d, #2a2119 45%, #060806)'
+      },
+      {
+        id: 'FILE-03',
+        title: 'Польща 2023',
+        text: 'Файл із дороги. Більше повітря, більше шуму, новий фон.',
+        mark: 'PL',
+        bg: 'linear-gradient(135deg, #0b1112, #16272b 48%, #070908)'
+      },
+      {
+        id: 'FILE-04',
+        title: 'Невідома версія',
+        text: 'Запис без повної назви. Його залишили в архіві, бо він виглядає підозріло добре.',
+        mark: '???',
+        bg: 'linear-gradient(135deg, #0c0f0a, #2c3016 52%, #050806)'
+      }
+    ]
+  },
+  en: {
+    navDossier: 'Dossier',
+    navTimeline: 'Timeline',
+    navGallery: 'Gallery',
+    heroKicker: 'personal file',
+    heroSubtitle: 'A personal archive of versions, photo files, and strange phases.',
+    openFile: 'Open dossier',
+    dossierTitle: 'Dossier card',
+    stampVerified: 'Verified',
+    fieldName: 'Name',
+    fieldStatus: 'Status',
+    fieldStatusValue: 'active archive',
+    fieldMode: 'Mode',
+    fieldModeValue: 'military file / personal chronology',
+    fieldAccess: 'Access',
+    fieldAccessValue: 'not very secret',
+    dossierText: 'This is not an official archive and not a serious biography. It is a dark file with a few versions, memories, photos, and a little theatre.',
+    timelineTitle: 'Version timeline',
+    galleryTitle: 'Photo archive',
+    galleryMap: 'route',
+    gallerySignal: 'signal',
+    galleryRedacted: 'redacted',
+    footerText: 'all rights unsecured',
+    versions: [
+      {
+        id: 'FILE-01',
+        title: 'VDV 2022',
+        text: 'The first image in the file. Raw, dark, and somehow important.',
+        mark: '2022',
+        bg: 'linear-gradient(135deg, #0c130d, #1c2918 48%, #060806)'
+      },
+      {
+        id: 'FILE-02',
+        title: 'Russian 2022',
+        text: 'Another version from the same year: colder, harder, almost documentary.',
+        mark: 'RU',
+        bg: 'linear-gradient(135deg, #100d0d, #2a2119 45%, #060806)'
+      },
+      {
+        id: 'FILE-03',
+        title: 'Poland 2023',
+        text: 'A file from the road. More air, more noise, a new background.',
+        mark: 'PL',
+        bg: 'linear-gradient(135deg, #0b1112, #16272b 48%, #070908)'
+      },
+      {
+        id: 'FILE-04',
+        title: 'Unknown version',
+        text: 'A record without a full name. It stayed in the archive because it looks suspiciously good.',
+        mark: '???',
+        bg: 'linear-gradient(135deg, #0c0f0a, #2c3016 52%, #050806)'
+      }
+    ]
+  }
+};
+
+let currentLang = localStorage.getItem('siteLang') || 'uk';
+let currentVersion = 0;
+
 (function initCursor() {
   const cursor = document.getElementById('cursor');
   if (!cursor) return;
 
-  let cx = -100, cy = -100;
-  let raf;
+  let cx = -100;
+  let cy = -100;
+  let raf = null;
 
-  function moveCursor(e) {
-    cx = e.clientX;
-    cy = e.clientY;
-    if (!raf) {
-      raf = requestAnimationFrame(() => {
-        cursor.style.left = cx + 'px';
-        cursor.style.top  = cy + 'px';
-        raf = null;
-      });
-    }
+  function moveCursor(event) {
+    cx = event.clientX;
+    cy = event.clientY;
+    if (raf) return;
+
+    raf = requestAnimationFrame(function() {
+      cursor.style.left = cx + 'px';
+      cursor.style.top = cy + 'px';
+      raf = null;
+    });
   }
 
   document.addEventListener('mousemove', moveCursor);
-  document.addEventListener('mouseenter', () => document.body.classList.add('cursor-active'));
-  document.addEventListener('mouseleave', () => document.body.classList.remove('cursor-active'));
+  document.addEventListener('mouseenter', function() {
+    document.body.classList.add('cursor-active');
+  });
+  document.addEventListener('mouseleave', function() {
+    document.body.classList.remove('cursor-active');
+  });
 })();
 
+function applyLanguage(lang) {
+  currentLang = translations[lang] ? lang : 'uk';
+  localStorage.setItem('siteLang', currentLang);
+  document.documentElement.lang = currentLang;
 
-/* ─────────────────────────────────────────────
-   REAL-TIME CLOCK
-───────────────────────────────────────────── */
-(function initClock() {
-  const el = document.getElementById('clock');
-  if (!el) return;
+  document.querySelectorAll('[data-i18n]').forEach(function(element) {
+    const key = element.getAttribute('data-i18n');
+    if (translations[currentLang][key]) {
+      element.textContent = translations[currentLang][key];
+    }
+  });
 
-  function tick() {
-    const d = new Date();
-    const h = String(d.getHours()).padStart(2, '0');
-    const m = String(d.getMinutes()).padStart(2, '0');
-    const s = String(d.getSeconds()).padStart(2, '0');
-    el.textContent = h + ':' + m + ':' + s;
+  document.querySelectorAll('.lang-btn').forEach(function(button) {
+    button.classList.toggle('active', button.dataset.lang === currentLang);
+  });
+
+  renderVersion(currentVersion, false);
+}
+
+function renderVersion(index, animate) {
+  const files = translations[currentLang].versions;
+  currentVersion = (index + files.length) % files.length;
+
+  const file = files[currentVersion];
+  const card = document.getElementById('versionCard');
+  const image = document.getElementById('versionImage');
+  const id = document.getElementById('versionId');
+  const title = document.getElementById('versionTitle');
+  const text = document.getElementById('versionText');
+
+  if (!card || !image || !id || !title || !text) return;
+
+  if (animate) {
+    card.classList.add('is-changing');
   }
-  tick();
-  setInterval(tick, 1000);
-})();
 
+  setTimeout(function() {
+    image.style.setProperty('--version-bg', file.bg);
+    image.setAttribute('data-mark', file.mark);
+    id.textContent = file.id;
+    title.textContent = file.title;
+    text.textContent = file.text;
 
-/* ─────────────────────────────────────────────
-   HERO DATE STAMP
-───────────────────────────────────────────── */
-(function initHeroDate() {
-  const el = document.getElementById('heroDate');
-  if (!el) return;
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  el.textContent = y + '.' + m + '.' + day;
-})();
+    document.querySelectorAll('.timeline-dot').forEach(function(dot, dotIndex) {
+      dot.classList.toggle('active', dotIndex === currentVersion);
+      dot.setAttribute('aria-current', dotIndex === currentVersion ? 'true' : 'false');
+    });
 
+    card.classList.remove('is-changing');
+  }, animate ? 180 : 0);
+}
 
-/* ─────────────────────────────────────────────
-   TYPEWRITER HELPER
-───────────────────────────────────────────── */
-function typeIn(el, text, speed, delay) {
-  return new Promise(function(resolve) {
-    setTimeout(function() {
-      var i = 0;
-      var iv = setInterval(function() {
-        el.textContent += text[i];
-        i++;
-        if (i >= text.length) {
-          clearInterval(iv);
-          resolve();
-        }
-      }, speed);
-    }, delay || 0);
+function buildTimelineDots() {
+  const holder = document.getElementById('timelineDots');
+  if (!holder) return;
+
+  holder.innerHTML = '';
+  translations.uk.versions.forEach(function(_, index) {
+    const button = document.createElement('button');
+    button.className = 'timeline-dot';
+    button.type = 'button';
+    button.setAttribute('aria-label', 'Open file ' + (index + 1));
+    button.addEventListener('click', function() {
+      renderVersion(index, true);
+    });
+    holder.appendChild(button);
   });
 }
 
-function pause(ms) {
-  return new Promise(function(r) { setTimeout(r, ms); });
-}
-
-
-/* ─────────────────────────────────────────────
-   HERO TYPE SEQUENCE
-───────────────────────────────────────────── */
-(function initHeroType() {
-  var subtitleEl    = document.getElementById('heroSubtitle');
-  var terminalEl    = document.getElementById('terminalText');
-  if (!subtitleEl || !terminalEl) return;
-
-  var subtitleText = 'Особистий архів дивних ідей та випадкових проєктів';
-  var terminalSteps = [
-    'ініціалізація системи...',
-    'завантаження файлів...',
-    'перевірка доступу...',
-    'доступ дозволено.',
-  ];
-
-  async function run() {
-    await typeIn(subtitleEl, subtitleText, 32, 400);
-    await pause(300);
-
-    for (var i = 0; i < terminalSteps.length; i++) {
-      await typeIn(terminalEl, terminalSteps[i], 28, 150);
-      await pause(550);
-      if (i < terminalSteps.length - 1) {
-        terminalEl.textContent = '';
-      }
-    }
-  }
-  run();
-})();
-
-
-/* ─────────────────────────────────────────────
-   NAVIGATION: SCROLL + ACTIVE STATE
-───────────────────────────────────────────── */
-(function initNav() {
-  var nav         = document.getElementById('nav');
-  var navToggle   = document.getElementById('navToggle');
-  var navLinks    = document.getElementById('navLinks');
-  var allNavLinks = document.querySelectorAll('.nav-link');
-  if (!nav) return;
-
-  /* Sticky style on scroll */
-  function onScroll() {
-    if (window.scrollY > 60) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
-
-    /* Active link tracking */
-    var offset = window.scrollY + 110;
-    document.querySelectorAll('section[id]').forEach(function(sec) {
-      var top    = sec.offsetTop;
-      var bottom = top + sec.offsetHeight;
-      var id     = sec.getAttribute('id');
-      var link   = document.querySelector('.nav-link[data-section="' + id + '"]');
-      if (!link) return;
-      if (offset >= top && offset < bottom) {
-        allNavLinks.forEach(function(l) { l.classList.remove('active'); });
-        link.classList.add('active');
-      }
-    });
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  /* Mobile hamburger */
-  if (navToggle && navLinks) {
-    navToggle.addEventListener('click', function() {
-      var open = navLinks.classList.toggle('open');
-      navToggle.classList.toggle('open', open);
-      navToggle.setAttribute('aria-expanded', String(open));
-    });
-
-    /* Close drawer when a link is tapped */
-    allNavLinks.forEach(function(link) {
-      link.addEventListener('click', function() {
-        navLinks.classList.remove('open');
-        navToggle.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-  }
-})();
-
-
-/* ─────────────────────────────────────────────
-   OPEN FILE BUTTON → SMOOTH SCROLL TO ABOUT
-───────────────────────────────────────────── */
-(function initOpenFile() {
-  var btn = document.getElementById('openFileBtn');
-  if (!btn) return;
-  btn.addEventListener('click', function() {
-    var target = document.getElementById('about');
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
-  });
-})();
-
-
-/* ─────────────────────────────────────────────
-   INTERSECTION OBSERVER — SCROLL REVEAL
-───────────────────────────────────────────── */
-(function initReveal() {
-  var elements = document.querySelectorAll('.reveal');
-  if (!elements.length) return;
-
-  var io = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
-
-  /* Stagger siblings that share a parent */
-  var parents = new Set();
-  elements.forEach(function(el) {
-    if (el.parentElement) parents.add(el.parentElement);
-  });
-
-  parents.forEach(function(parent) {
-    var kids = parent.querySelectorAll('.reveal');
-    kids.forEach(function(kid, i) {
-      kid.style.transitionDelay = (i * 75) + 'ms';
+(function initLanguageButtons() {
+  document.querySelectorAll('.lang-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+      applyLanguage(button.dataset.lang);
     });
   });
-
-  elements.forEach(function(el) { io.observe(el); });
 })();
 
+(function initVersionControls() {
+  buildTimelineDots();
 
-/* ─────────────────────────────────────────────
-   CONTACT — SEND SIGNAL
-───────────────────────────────────────────── */
-(function initContact() {
-  var btn      = document.getElementById('sendSignalBtn');
-  var feedback = document.getElementById('signalFeedback');
-  if (!btn || !feedback) return;
+  const prev = document.getElementById('prevVersion');
+  const next = document.getElementById('nextVersion');
 
-  var steps = [
-    '> СИГНАЛ НАДІСЛАНО...',
-    '> ЗВ\'ЯЗОК ВСТАНОВЛЕНО.',
-    '> ОЧІКУВАННЯ ВІДПОВІДІ...',
-    '> ВІДПОВІДЬ: НЕЗАБАРОМ™',
-  ];
-  var busy = false;
-
-  btn.addEventListener('click', function() {
-    if (busy) return;
-    busy = true;
-    feedback.textContent = '';
-
-    var i = 0;
-    function next() {
-      if (i >= steps.length) { busy = false; return; }
-      feedback.textContent = steps[i];
-      i++;
-      setTimeout(next, 850);
-    }
-    next();
-  });
-})();
-
-
-/* ─────────────────────────────────────────────
-   EASTER EGG — 5 CLICKS ON TITLE
-───────────────────────────────────────────── */
-(function initEasterEgg() {
-  var title   = document.getElementById('heroTitle');
-  var modal   = document.getElementById('easterEggModal');
-  var closeBtn= document.getElementById('closeModal');
-  if (!title || !modal || !closeBtn) return;
-
-  var clicks  = 0;
-  var timer   = null;
-
-  function openModal() {
-    modal.hidden = false;
-    modal.removeAttribute('hidden');
-
-    /* Stagger the log lines */
-    var lines = modal.querySelectorAll('.mlog-line');
-    lines.forEach(function(line, i) {
-      line.classList.remove('visible');
-      setTimeout(function() { line.classList.add('visible'); }, 500 + i * 300);
+  if (prev) {
+    prev.addEventListener('click', function() {
+      renderVersion(currentVersion - 1, true);
     });
   }
 
-  function closeModal() {
-    modal.hidden = true;
+  if (next) {
+    next.addEventListener('click', function() {
+      renderVersion(currentVersion + 1, true);
+    });
   }
 
-  title.addEventListener('click', function() {
-    clicks++;
-
-    /* Micro-bounce feedback */
-    title.style.transform = 'scale(1.03)';
-    setTimeout(function() { title.style.transform = ''; }, 120);
-
-    clearTimeout(timer);
-    if (clicks >= 5) {
-      clicks = 0;
-      openModal();
-      return;
-    }
-    timer = setTimeout(function() { clicks = 0; }, 2800);
-  });
-
-  closeBtn.addEventListener('click', closeModal);
-
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) closeModal();
-  });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && !modal.hidden) closeModal();
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowLeft') renderVersion(currentVersion - 1, true);
+    if (event.key === 'ArrowRight') renderVersion(currentVersion + 1, true);
   });
 })();
 
-
-/* ─────────────────────────────────────────────
-   OCCASIONAL GLITCH ON SECTION TITLES
-───────────────────────────────────────────── */
-(function initGlitch() {
-  var titles = document.querySelectorAll('.section-title');
-  if (!titles.length) return;
-
-  function randomInt(min, max) {
-    return Math.floor(min + (max - min) * (
-      /* avoid Date.now / Math.random — use a simple LCG seeded once */
-      (performance.now() % 1000) / 1000
-    ));
-  }
-
-  function glitch() {
-    var idx   = Math.floor((performance.now() % 100) / 100 * titles.length);
-    var title = titles[idx] || titles[0];
-    var orig  = title.style.cssText;
-
-    title.style.textShadow = '-2px 0 rgba(139,64,64,.55), 2px 0 rgba(74,100,60,.55)';
-    title.style.transform  = 'translateX(2px)';
-
-    setTimeout(function() {
-      title.style.textShadow = '';
-      title.style.transform  = '';
-    }, 90);
-  }
-
-  function schedule() {
-    /* fire in 5–13 s — deterministic-ish from perf.now */
-    var delay = 5000 + (performance.now() % 8000);
-    setTimeout(function() { glitch(); schedule(); }, delay);
-  }
-  schedule();
-})();
+applyLanguage(currentLang);

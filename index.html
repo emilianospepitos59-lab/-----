@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="НЕ-ДУЖЕ-СЕКРЕТНО — Особистий архів дивних ідей та випадкових проєктів">
+  <meta name="description" content="НЕ-ДУЖЕ-СЕКРЕТНО — особисте досьє, фотоархів і хронологія версій">
   <title>НЕ-ДУЖЕ-СЕКРЕТНО</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,572 +11,162 @@
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-
-  <!-- Atmospheric overlays -->
   <div class="overlay-vignette" aria-hidden="true"></div>
   <div class="overlay-scanlines" aria-hidden="true"></div>
   <div class="overlay-noise" aria-hidden="true"></div>
-
-  <!-- Custom cursor -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
-  <!-- ─────────────────────────────────────────────
-       STATUS BAR
-  ───────────────────────────────────────────── -->
-  <div class="status-bar" role="banner" aria-label="Системний статус">
-    <span class="status-online">
-      <span class="pulse-dot" aria-hidden="true"></span>
-      СИСТЕМА&nbsp;ОНЛАЙН
-    </span>
-    <span class="status-clock" id="clock" aria-live="off">00:00:00</span>
-    <span class="status-fileid">FILE-ID:&nbsp;UA-7734-НДС</span>
-  </div>
-
-  <!-- ─────────────────────────────────────────────
-       NAVIGATION
-  ───────────────────────────────────────────── -->
-  <nav class="nav" id="nav" aria-label="Головна навігація">
-    <div class="nav-logo" aria-label="НДС — Не дуже секретно">
-      <span class="bracket">[</span>НДС<span class="bracket">]</span>
+  <header class="topbar" aria-label="Site controls">
+    <a class="brand" href="#home" aria-label="НЕ-ДУЖЕ-СЕКРЕТНО">
+      <span>[</span>НДС<span>]</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="#dossier" data-i18n="navDossier">Досьє</a>
+      <a href="#timeline" data-i18n="navTimeline">Хронологія</a>
+      <a href="#gallery" data-i18n="navGallery">Галерея</a>
+    </nav>
+    <div class="lang-switch" aria-label="Language switcher">
+      <button class="lang-btn active" type="button" data-lang="uk">UA</button>
+      <button class="lang-btn" type="button" data-lang="en">EN</button>
     </div>
-    <ul class="nav-links" id="navLinks" role="list">
-      <li><a href="#home"     class="nav-link" data-section="home">ГОЛОВНА</a></li>
-      <li><a href="#about"    class="nav-link" data-section="about">ПРО&nbsp;МЕНЕ</a></li>
-      <li><a href="#projects" class="nav-link" data-section="projects">ПРОЄКТИ</a></li>
-      <li><a href="#gallery"  class="nav-link" data-section="gallery">ГАЛЕРЕЯ</a></li>
-      <li><a href="#log"      class="nav-link" data-section="log">ЖУРНАЛ</a></li>
-      <li><a href="#contact"  class="nav-link" data-section="contact">КОНТАКТ</a></li>
-    </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="Відкрити меню" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+  </header>
 
-  <!-- ─────────────────────────────────────────────
-       SECTION 01 — ГОЛОВНА
-  ───────────────────────────────────────────── -->
-  <section id="home" class="section hero" aria-label="Головна сторінка">
-    <div class="hero-bg-grid" aria-hidden="true"></div>
+  <main>
+    <section id="home" class="hero-panel" aria-labelledby="heroTitle">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <figure class="hero-portrait" aria-label="Main dossier bust">
+        <svg viewBox="0 0 720 920" role="img" aria-labelledby="portraitTitle portraitDesc" xmlns="http://www.w3.org/2000/svg">
+          <title id="portraitTitle">Classified bust portrait</title>
+          <desc id="portraitDesc">A stylized military archive portrait placeholder.</desc>
+          <defs>
+            <linearGradient id="portraitGlow" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#233421"/>
+              <stop offset="0.58" stop-color="#10170f"/>
+              <stop offset="1" stop-color="#050806"/>
+            </linearGradient>
+            <filter id="roughen">
+              <feTurbulence baseFrequency="0.018" numOctaves="3" seed="8" type="fractalNoise"/>
+              <feDisplacementMap in="SourceGraphic" scale="5"/>
+            </filter>
+          </defs>
+          <rect width="720" height="920" fill="url(#portraitGlow)"/>
+          <path d="M104 828 C128 650 192 544 275 500 C231 463 205 408 205 342 C205 220 274 130 361 130 C448 130 517 220 517 342 C517 408 491 463 447 500 C530 544 592 650 616 828 Z" fill="#0b0f0d" opacity="0.92"/>
+          <path d="M221 342 C242 247 293 185 361 185 C429 185 480 247 501 342 C485 437 430 493 361 493 C292 493 237 437 221 342 Z" fill="#182316"/>
+          <path d="M253 352 C290 330 430 330 469 352" fill="none" stroke="#35492f" stroke-width="6" opacity="0.9"/>
+          <path d="M248 610 L472 610 L536 828 L184 828 Z" fill="#111a12"/>
+          <path d="M306 612 L360 710 L414 612" fill="none" stroke="#4c6845" stroke-width="4"/>
+          <rect x="68" y="72" width="584" height="766" fill="none" stroke="#3d5034" stroke-width="2" stroke-dasharray="10 10" opacity="0.65"/>
+          <g filter="url(#roughen)" opacity="0.82">
+            <text x="360" y="788" text-anchor="middle" font-family="VT323, monospace" font-size="74" fill="#7fb06d" letter-spacing="10">FILE 7734</text>
+            <text x="360" y="846" text-anchor="middle" font-family="Share Tech Mono, monospace" font-size="19" fill="#4c6845" letter-spacing="8">IMAGE TEMPORARILY REDACTED</text>
+          </g>
+        </svg>
+      </figure>
 
-    <div class="hero-inner">
-      <div class="file-stamp-banner" aria-hidden="true">НЕ ДУЖЕ<br>СЕКРЕТНО</div>
-
-      <div class="file-meta" aria-label="Метадані файлу">
-        <div class="file-meta-row">
-          <span>РІВЕНЬ&nbsp;ДОСТУПУ:&nbsp;НЕ-ДУЖЕ-СЕКРЕТНО</span>
-          <span>ДАТА:&nbsp;<span id="heroDate">——</span></span>
-        </div>
-        <div class="file-meta-row">
-          <span>REF:&nbsp;UA-7734-НДС/2024</span>
-          <span>СТАТУС:&nbsp;ВІДКРИТО</span>
-        </div>
+      <div class="hero-copy">
+        <p class="file-kicker">UA-7734-НДС // <span data-i18n="heroKicker">особова справа</span></p>
+        <h1 id="heroTitle" class="hero-title">не-дуже-секретно</h1>
+        <p class="hero-subtitle" data-i18n="heroSubtitle">Особистий архів версій, фотофайлів і дивних етапів.</p>
+        <a class="down-link" href="#dossier" aria-label="Scroll down">
+          <span data-i18n="openFile">Відкрити досьє</span>
+          <span aria-hidden="true">↓</span>
+        </a>
       </div>
 
-      <h1 class="hero-title" id="heroTitle" title="Натисни 5 разів для сюрпризу">
-        НЕ-ДУЖЕ-СЕКРЕТНО
-      </h1>
+      <div class="stamp stamp-hero" aria-hidden="true">НЕ ДУЖЕ<br>СЕКРЕТНО</div>
+    </section>
 
-      <p class="hero-subtitle" id="heroSubtitle" aria-live="polite"></p>
-
-      <div class="hero-terminal" aria-live="polite" aria-label="Термінал">
-        <span class="terminal-prompt">&gt;&nbsp;</span><span
-          class="terminal-text" id="terminalText"></span><span
-          class="cursor-blink" aria-hidden="true">_</span>
-      </div>
-
-      <button class="btn-primary" id="openFileBtn">
-        <span class="btn-bracket" aria-hidden="true">[</span>
-        ВІДКРИТИ&nbsp;ДОСЬЄ
-        <span class="btn-bracket" aria-hidden="true">]</span>
-      </button>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────────
-       SECTION 02 — ПРО МЕНЕ
-  ───────────────────────────────────────────── -->
-  <section id="about" class="section about-section" aria-labelledby="aboutTitle">
-    <div class="container">
-      <header class="section-header reveal">
-        <span class="section-label">// СЕКЦІЯ&nbsp;02</span>
-        <h2 class="section-title" id="aboutTitle">ПРО&nbsp;МЕНЕ</h2>
-      </header>
-
-      <div class="about-card reveal">
-        <div class="card-watermark" aria-hidden="true">ПЕРЕВІРЕНО</div>
-
-        <div class="about-id-block">
-          <div class="id-photo" aria-label="Фото агента — засекречено">
-            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect width="80" height="100" fill="#111810"/>
-              <circle cx="40" cy="36" r="20" fill="#1d2819"/>
-              <rect x="10" y="62" width="60" height="38" rx="30" fill="#1d2819"/>
-              <text x="40" y="95" text-anchor="middle" fill="#3a4a30"
-                font-family="monospace" font-size="6" letter-spacing="1">ЗАСЕКРЕЧЕНО</text>
+    <section id="dossier" class="dossier-section" aria-labelledby="dossierTitle">
+      <div class="section-shell">
+        <div class="section-heading">
+          <span>// 01</span>
+          <h2 id="dossierTitle" data-i18n="dossierTitle">Картка досьє</h2>
+        </div>
+        <article class="dossier-card">
+          <div class="stamp stamp-card" aria-hidden="true" data-i18n="stampVerified">Перевірено</div>
+          <div class="dossier-photo">
+            <svg viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect width="220" height="280" fill="#0b100c"/>
+              <circle cx="110" cy="94" r="48" fill="#1a2517"/>
+              <path d="M38 260 C49 177 76 146 110 146 C144 146 171 177 182 260 Z" fill="#172116"/>
+              <path d="M48 224 H172" stroke="#3d5034" stroke-width="2"/>
+              <text x="110" y="255" text-anchor="middle" fill="#506a47" font-size="12" font-family="monospace" letter-spacing="2">REDACTED</text>
             </svg>
           </div>
-
-          <dl class="id-fields">
-            <div class="id-field">
-              <dt>ІМ'Я:</dt>
-              <dd class="redacted">[ВИЛУЧЕНО]</dd>
+          <dl class="dossier-facts">
+            <div>
+              <dt data-i18n="fieldName">Ім'я</dt>
+              <dd>не-дуже-секретно</dd>
             </div>
-            <div class="id-field">
-              <dt>СТАТУС:</dt>
-              <dd class="status-ok">АКТИВНИЙ</dd>
+            <div>
+              <dt data-i18n="fieldStatus">Статус</dt>
+              <dd data-i18n="fieldStatusValue">активний архів</dd>
             </div>
-            <div class="id-field">
-              <dt>СПЕЦІАЛІЗАЦІЯ:</dt>
-              <dd>ДИВНІ ПРОЄКТИ</dd>
+            <div>
+              <dt data-i18n="fieldMode">Режим</dt>
+              <dd data-i18n="fieldModeValue">військовий файл / особиста хронологія</dd>
             </div>
-            <div class="id-field">
-              <dt>РІВЕНЬ&nbsp;НЕБЕЗПЕКИ:</dt>
-              <dd>НИЗЬКИЙ&nbsp;(ЗДЕБІЛЬШОГО)</dd>
-            </div>
-            <div class="id-field">
-              <dt>МІСЦЕЗНАХОДЖЕННЯ:</dt>
-              <dd>[ВІДСТЕЖУЄТЬСЯ]</dd>
+            <div>
+              <dt data-i18n="fieldAccess">Доступ</dt>
+              <dd data-i18n="fieldAccessValue">не дуже секретно</dd>
             </div>
           </dl>
+          <p class="dossier-text" data-i18n="dossierText">Це не офіційний архів і не серйозна біографія. Це темний файл із кількома версіями, спогадами, фото й трохи театру.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="timeline" class="timeline-section" aria-labelledby="timelineTitle">
+      <div class="section-shell timeline-shell">
+        <div class="section-heading">
+          <span>// 02</span>
+          <h2 id="timelineTitle" data-i18n="timelineTitle">Хронологія версій</h2>
         </div>
 
-        <div class="about-body">
-          <p class="about-main">Тут повинна бути серйозна інформація про мене, але поки що її немає.</p>
-          <p class="about-sub">Натомість можу повідомити, що я існую, маю кілька проєктів і іноді виходжу на зв'язок. Решта інформації наразі перебуває на стадії&nbsp;«придумати щось розумне написати».</p>
-          <p class="about-sub">Дані оновлюються. Можливо.</p>
+        <div class="version-viewer" aria-live="polite">
+          <button class="side-arrow side-arrow-prev" id="prevVersion" type="button" aria-label="Previous file">◀</button>
+          <article class="version-card" id="versionCard">
+            <div class="version-image" id="versionImage"></div>
+            <div class="version-caption">
+              <span class="version-id" id="versionId">FILE-01</span>
+              <h3 id="versionTitle">ВДВ 2022</h3>
+              <p id="versionText">Перший знімок у справі. Сирий, темний, але важливий.</p>
+            </div>
+          </article>
+          <button class="side-arrow side-arrow-next" id="nextVersion" type="button" aria-label="Next file">▶</button>
         </div>
 
-        <div class="barcode" aria-label="Штрих-код ідентифікатора">
-          <div class="barcode-bars" aria-hidden="true"></div>
-          <span class="barcode-text">UA-AGENT-7734-НДС</span>
+        <div class="timeline-controls" id="timelineDots" aria-label="Timeline file selector"></div>
+      </div>
+    </section>
+
+    <section id="gallery" class="gallery-section" aria-labelledby="galleryTitle">
+      <div class="section-shell">
+        <div class="section-heading">
+          <span>// 03</span>
+          <h2 id="galleryTitle" data-i18n="galleryTitle">Фотоархів</h2>
+        </div>
+        <div class="archive-grid">
+          <figure class="archive-tile">
+            <div class="mini-file mini-file-map" aria-hidden="true"></div>
+            <figcaption>IMG-001 // <span data-i18n="galleryMap">маршрут</span></figcaption>
+          </figure>
+          <figure class="archive-tile">
+            <div class="mini-file mini-file-signal" aria-hidden="true"></div>
+            <figcaption>IMG-002 // <span data-i18n="gallerySignal">сигнал</span></figcaption>
+          </figure>
+          <figure class="archive-tile">
+            <div class="mini-file mini-file-redacted" aria-hidden="true"></div>
+            <figcaption>IMG-003 // <span data-i18n="galleryRedacted">вилучено</span></figcaption>
+          </figure>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- ─────────────────────────────────────────────
-       SECTION 03 — ПРОЄКТИ
-  ───────────────────────────────────────────── -->
-  <section id="projects" class="section projects-section" aria-labelledby="projectsTitle">
-    <div class="container">
-      <header class="section-header reveal">
-        <span class="section-label">// СЕКЦІЯ&nbsp;03</span>
-        <h2 class="section-title" id="projectsTitle">ПРОЄКТИ</h2>
-      </header>
-
-      <div class="projects-grid">
-
-        <article class="project-card reveal" aria-label="Проєкт: Відео">
-          <div class="proj-head">
-            <span class="proj-id">OBJ-001</span>
-            <span class="proj-badge badge-active">АКТИВНИЙ</span>
-          </div>
-          <div class="proj-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="24" r="20" fill="none" stroke="#2a3020" stroke-width="1.5"/>
-              <polygon points="19,14 37,24 19,34" fill="none" stroke="#7ab56f" stroke-width="1.5"/>
-            </svg>
-          </div>
-          <h3 class="proj-name">ВІДЕО</h3>
-          <p class="proj-desc">Відеоматеріали різного ступеня серйозності. Можливо, є щось цікаве серед записів.</p>
-          <div class="proj-footer">
-            <span class="proj-tag">МЕДІА</span>
-            <span class="proj-arrow" aria-hidden="true">→</span>
-          </div>
-        </article>
-
-        <article class="project-card reveal" aria-label="Проєкт: Історія">
-          <div class="proj-head">
-            <span class="proj-id">OBJ-002</span>
-            <span class="proj-badge badge-pending">В&nbsp;ПРОЦЕСІ</span>
-          </div>
-          <div class="proj-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <rect x="8" y="7" width="32" height="5" rx="1" fill="#4a6741"/>
-              <rect x="8" y="16" width="32" height="2" rx="1" fill="#2a3020"/>
-              <rect x="8" y="22" width="28" height="2" rx="1" fill="#2a3020"/>
-              <rect x="8" y="28" width="30" height="2" rx="1" fill="#2a3020"/>
-              <rect x="8" y="34" width="18" height="2" rx="1" fill="#2a3020"/>
-            </svg>
-          </div>
-          <h3 class="proj-name">ІСТОРІЯ</h3>
-          <p class="proj-desc">Записи, хроніки та зафіксовані події. Деякі з них навіть правдиві.</p>
-          <div class="proj-footer">
-            <span class="proj-tag">АРХІВ</span>
-            <span class="proj-arrow" aria-hidden="true">→</span>
-          </div>
-        </article>
-
-        <article class="project-card reveal" aria-label="Проєкт: RP">
-          <div class="proj-head">
-            <span class="proj-id">OBJ-003</span>
-            <span class="proj-badge badge-classified">ЗАСЕКРЕЧЕНО</span>
-          </div>
-          <div class="proj-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="19" r="9" fill="none" stroke="#7ab56f" stroke-width="1.5"/>
-              <circle cx="24" cy="19" r="3" fill="#4a6741"/>
-              <path d="M8 42 Q24 26 40 42" fill="none" stroke="#7ab56f" stroke-width="1.5"/>
-            </svg>
-          </div>
-          <h3 class="proj-name">RP</h3>
-          <p class="proj-desc">Рольові ігри та альтернативні реальності. Персонажі мають своє листування.</p>
-          <div class="proj-footer">
-            <span class="proj-tag">МЕРЕЖА</span>
-            <span class="proj-arrow" aria-hidden="true">→</span>
-          </div>
-        </article>
-
-        <article class="project-card reveal" aria-label="Проєкт: Мапінг">
-          <div class="proj-head">
-            <span class="proj-id">OBJ-004</span>
-            <span class="proj-badge badge-active">АКТИВНИЙ</span>
-          </div>
-          <div class="proj-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="6" width="36" height="36" fill="none" stroke="#3d4f34" stroke-width="1"/>
-              <line x1="6"  y1="18" x2="42" y2="18" stroke="#1a2016" stroke-width="1"/>
-              <line x1="6"  y1="30" x2="42" y2="30" stroke="#1a2016" stroke-width="1"/>
-              <line x1="18" y1="6"  x2="18" y2="42" stroke="#1a2016" stroke-width="1"/>
-              <line x1="30" y1="6"  x2="30" y2="42" stroke="#1a2016" stroke-width="1"/>
-              <circle cx="15" cy="27" r="2.5" fill="#7ab56f"/>
-              <circle cx="29" cy="14" r="2.5" fill="#7ab56f"/>
-              <circle cx="37" cy="33" r="2.5" fill="#7ab56f"/>
-              <line x1="15" y1="27" x2="29" y2="14" stroke="#4a6741" stroke-width="0.8" stroke-dasharray="2,2"/>
-              <line x1="29" y1="14" x2="37" y2="33" stroke="#4a6741" stroke-width="0.8" stroke-dasharray="2,2"/>
-            </svg>
-          </div>
-          <h3 class="proj-name">МАПІНГ</h3>
-          <p class="proj-desc">Карти, схеми та просторові дані. Географія дивних місць та маршрутів.</p>
-          <div class="proj-footer">
-            <span class="proj-tag">ГЕО</span>
-            <span class="proj-arrow" aria-hidden="true">→</span>
-          </div>
-        </article>
-
-        <article class="project-card project-card--wide reveal" aria-label="Проєкт: Дивні експерименти">
-          <div class="proj-head">
-            <span class="proj-id">OBJ-005</span>
-            <span class="proj-badge badge-unknown">НЕВІДОМО</span>
-          </div>
-          <div class="proj-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <path d="M24 5 L4 43 L44 43 Z" fill="none" stroke="#4a6741" stroke-width="1.5"/>
-              <text x="24" y="38" text-anchor="middle" fill="#7ab56f"
-                font-size="18" font-family="monospace" font-weight="bold">?</text>
-            </svg>
-          </div>
-          <h3 class="proj-name">ДИВНІ&nbsp;ЕКСПЕРИМЕНТИ</h3>
-          <p class="proj-desc">Категорія для всього, що не підходить під інші категорії. Може бути небезпечним. Скоріш за все&nbsp;— ні. Але хто знає.</p>
-          <div class="proj-footer">
-            <span class="proj-tag">НЕВІДОМА&nbsp;КАТЕГОРІЯ</span>
-            <span class="proj-arrow" aria-hidden="true">→</span>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────────
-       SECTION 04 — ГАЛЕРЕЯ
-  ───────────────────────────────────────────── -->
-  <section id="gallery" class="section gallery-section" aria-labelledby="galleryTitle">
-    <div class="container">
-      <header class="section-header reveal">
-        <span class="section-label">// СЕКЦІЯ&nbsp;04</span>
-        <h2 class="section-title" id="galleryTitle">ГАЛЕРЕЯ</h2>
-      </header>
-
-      <div class="gallery-grid">
-
-        <figure class="gallery-item reveal" aria-label="Зображення 001 — засекречено">
-          <div class="gallery-img">
-            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect width="300" height="200" fill="#0c110d"/>
-              <rect x="20" y="20" width="260" height="160" fill="none" stroke="#1a2016" stroke-width="1"/>
-              <text x="150" y="80"  text-anchor="middle" fill="#2a3020" font-family="monospace" font-size="10">ЗОБРАЖЕННЯ ВИЛУЧЕНО</text>
-              <text x="150" y="97"  text-anchor="middle" fill="#1e2a1a" font-family="monospace" font-size="8.5">ПРИЧИНА: НАДТО СЕКРЕТНЕ</text>
-              <text x="150" y="130" text-anchor="middle" fill="#3d4f34" font-family="monospace" font-size="28" letter-spacing="4">████████</text>
-            </svg>
-          </div>
-          <figcaption class="gallery-cap">
-            <span class="gallery-id-label">IMG-001</span>
-            <span class="gallery-status">ЗАСЕКРЕЧЕНО</span>
-          </figcaption>
-        </figure>
-
-        <figure class="gallery-item reveal" aria-label="Зображення 002 — місцезнаходження">
-          <div class="gallery-img">
-            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect width="300" height="200" fill="#0a0f0b"/>
-              <line x1="0"   y1="100" x2="300" y2="100" stroke="#141c12" stroke-width="0.8"/>
-              <line x1="150" y1="0"   x2="150" y2="200" stroke="#141c12" stroke-width="0.8"/>
-              <circle cx="150" cy="100" r="55" fill="none" stroke="#1a2016" stroke-dasharray="4,3" stroke-width="1"/>
-              <circle cx="150" cy="100" r="30" fill="none" stroke="#243020" stroke-width="1"/>
-              <circle cx="150" cy="100" r="5"  fill="#4a6741"/>
-              <circle cx="150" cy="100" r="12" fill="none" stroke="#4a6741" stroke-width="0.8" opacity="0.4"/>
-              <text x="150" y="175" text-anchor="middle" fill="#3a4a30" font-family="monospace" font-size="8.5" letter-spacing="1">ЛОКАЦІЮ&nbsp;ВИЗНАЧЕНО</text>
-            </svg>
-          </div>
-          <figcaption class="gallery-cap">
-            <span class="gallery-id-label">IMG-002</span>
-            <span class="gallery-status">КООРДИНАТИ</span>
-          </figcaption>
-        </figure>
-
-        <figure class="gallery-item gallery-item--tall reveal" aria-label="Зображення 003 — особова справа">
-          <div class="gallery-img">
-            <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect width="300" height="400" fill="#090d0a"/>
-              <rect x="40" y="28" width="220" height="165" fill="#111810" stroke="#1a2016" stroke-width="1"/>
-              <circle cx="150" cy="90"  r="30" fill="#1d2419"/>
-              <rect   x="90"  y="128" width="120" height="60" rx="30" fill="#1d2419"/>
-              <rect x="40" y="202" width="220" height="32" fill="#161d14"/>
-              <text x="150" y="223" text-anchor="middle" fill="#4a6741" font-family="monospace" font-size="10" letter-spacing="1">ІМ'Я:&nbsp;[ВИЛУЧЕНО]</text>
-              <rect x="40" y="244" width="220" height="22" fill="#111810"/>
-              <text x="150" y="259" text-anchor="middle" fill="#2a3020" font-family="monospace" font-size="9">ВІДДІЛ:&nbsp;ХАОС&nbsp;ТА&nbsp;ТВОРЧІСТЬ</text>
-              <rect x="40" y="276" width="220" height="22" fill="#111810"/>
-              <text x="150" y="291" text-anchor="middle" fill="#2a3020" font-family="monospace" font-size="9">СТАТУС:&nbsp;НЕВІДОМИЙ</text>
-              <rect x="40" y="308" width="220" height="22" fill="#111810"/>
-              <text x="150" y="323" text-anchor="middle" fill="#2a3020" font-family="monospace" font-size="9">РІВЕНЬ&nbsp;ЗАГРОЗИ:&nbsp;МІНІМАЛЬНИЙ</text>
-              <rect x="55" y="350" width="90" height="36" fill="#161d14" stroke="#243020" stroke-width="1"/>
-              <text x="100" y="373" text-anchor="middle" fill="#7ab56f" font-family="monospace" font-size="20"
-                transform="rotate(-6,100,373)" opacity="0.7">ПІДТВ.</text>
-            </svg>
-          </div>
-          <figcaption class="gallery-cap">
-            <span class="gallery-id-label">IMG-003</span>
-            <span class="gallery-status">ОСОБОВА СПРАВА</span>
-          </figcaption>
-        </figure>
-
-        <figure class="gallery-item reveal" aria-label="Зображення 004 — аналіз даних">
-          <div class="gallery-img">
-            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect width="300" height="200" fill="#0b0f0c"/>
-              <rect x="10" y="10" width="280" height="180" fill="none" stroke="#1a2016" stroke-width="1"/>
-              <!-- Grid lines -->
-              <line x1="10" y1="55"  x2="290" y2="55"  stroke="#141c12" stroke-width="0.5"/>
-              <line x1="10" y1="100" x2="290" y2="100" stroke="#141c12" stroke-width="0.5"/>
-              <line x1="10" y1="145" x2="290" y2="145" stroke="#141c12" stroke-width="0.5"/>
-              <!-- Chart line -->
-              <polyline points="25,175 65,148 100,160 135,105 170,122 210,72 250,88 285,55"
-                fill="none" stroke="#4a6741" stroke-width="1.8" stroke-linejoin="round"/>
-              <!-- Dots -->
-              <circle cx="135" cy="105" r="3" fill="#7ab56f"/>
-              <circle cx="210" cy="72"  r="3" fill="#7ab56f"/>
-              <circle cx="285" cy="55"  r="3" fill="#7ab56f"/>
-              <text x="150" y="193" text-anchor="middle" fill="#2a3020" font-family="monospace" font-size="8">ГРАФІК&nbsp;ДИВНОЇ&nbsp;АКТИВНОСТІ&nbsp;2024</text>
-            </svg>
-          </div>
-          <figcaption class="gallery-cap">
-            <span class="gallery-id-label">IMG-004</span>
-            <span class="gallery-status">АНАЛІЗ ДАНИХ</span>
-          </figcaption>
-        </figure>
-
-        <figure class="gallery-item gallery-item--wide reveal" aria-label="Зображення 005 — топографічна карта">
-          <div class="gallery-img">
-            <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect width="600" height="200" fill="#090d0a"/>
-              <!-- Grid -->
-              <defs>
-                <pattern id="mapgrid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#121a10" stroke-width="0.5"/>
-                </pattern>
-              </defs>
-              <rect width="600" height="200" fill="url(#mapgrid)"/>
-              <!-- Paths -->
-              <path d="M20,100 C80,60 130,135 190,95 S260,52 300,72 S380,115 440,82 S520,42 580,58"
-                fill="none" stroke="#243020" stroke-width="1.8"/>
-              <path d="M20,130 C70,110 120,150 200,125 S310,90 370,115 S490,80 580,100"
-                fill="none" stroke="#1a2016" stroke-width="1" stroke-dasharray="3,3"/>
-              <!-- Points -->
-              <circle cx="190" cy="95"  r="4" fill="#7ab56f"/>
-              <circle cx="440" cy="82"  r="4" fill="#7ab56f"/>
-              <circle cx="300" cy="72"  r="3" fill="#4a6741"/>
-              <!-- Labels -->
-              <text x="192" y="87"  fill="#5a7050" font-family="monospace" font-size="8">A</text>
-              <text x="442" y="74"  fill="#5a7050" font-family="monospace" font-size="8">B</text>
-              <text x="300" y="185" text-anchor="middle" fill="#2a3020" font-family="monospace" font-size="8.5" letter-spacing="1">КАРТА:&nbsp;МАРШРУТ&nbsp;НЕВІДОМИЙ</text>
-            </svg>
-          </div>
-          <figcaption class="gallery-cap">
-            <span class="gallery-id-label">IMG-005</span>
-            <span class="gallery-status">ТОПОГРАФІЯ</span>
-          </figcaption>
-        </figure>
-
-        <figure class="gallery-item reveal" aria-label="Зображення 006 — пошкоджено">
-          <div class="gallery-img">
-            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect width="300" height="200" fill="#0e1210"/>
-              <text x="150" y="78"  text-anchor="middle" fill="#3a4a30" font-family="monospace" font-size="10.5">ФАЙЛ&nbsp;ПОШКОДЖЕНО</text>
-              <text x="150" y="96"  text-anchor="middle" fill="#2a3020" font-family="monospace" font-size="9">СПРОБА&nbsp;ВІДНОВЛЕННЯ...</text>
-              <!-- Progress bar -->
-              <rect x="50" y="115" width="200" height="7" rx="3.5" fill="#141c12"/>
-              <rect x="50" y="115" width="120" height="7" rx="3.5" fill="#3d4f34"/>
-              <text x="150" y="143" text-anchor="middle" fill="#2a3020" font-family="monospace" font-size="8">60%&nbsp;ЗАВЕРШЕНО</text>
-              <!-- Glitch lines -->
-              <rect x="0"   y="155" width="300" height="3" fill="#1a2016" opacity="0.7"/>
-              <rect x="60"  y="162" width="180" height="2" fill="#1a2016" opacity="0.5"/>
-              <rect x="120" y="169" width="80"  height="2" fill="#1a2016" opacity="0.3"/>
-            </svg>
-          </div>
-          <figcaption class="gallery-cap">
-            <span class="gallery-id-label">IMG-006</span>
-            <span class="gallery-status">ПОШКОДЖЕНО</span>
-          </figcaption>
-        </figure>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────────
-       SECTION 05 — ЖУРНАЛ
-  ───────────────────────────────────────────── -->
-  <section id="log" class="section log-section" aria-labelledby="logTitle">
-    <div class="container">
-      <header class="section-header reveal">
-        <span class="section-label">// СЕКЦІЯ&nbsp;05</span>
-        <h2 class="section-title" id="logTitle">ЖУРНАЛ</h2>
-      </header>
-
-      <div class="log-list">
-
-        <article class="log-entry reveal" aria-label="Запис журналу 01">
-          <div class="log-head">
-            <span class="log-id">[LOG&nbsp;01]</span>
-            <span class="log-date">2024.03.15&nbsp;//&nbsp;02:47:33</span>
-            <span class="log-badge badge-low">НИЗЬКИЙ</span>
-          </div>
-          <div class="log-body">
-            <p>Сьогодні намагався систематизувати всі свої проєкти. Нарахував їх тридцять сім. Завершених&nbsp;— нуль. Це не може бути нормальним явищем. Почну нову таблицю.</p>
-          </div>
-          <div class="log-tags">
-            <span class="log-tag">#організація</span>
-            <span class="log-tag">#проблеми</span>
-            <span class="log-tag">#таблиці-не-допомагають</span>
-          </div>
-        </article>
-
-        <article class="log-entry reveal" aria-label="Запис журналу 02">
-          <div class="log-head">
-            <span class="log-id">[LOG&nbsp;02]</span>
-            <span class="log-date">2024.04.02&nbsp;//&nbsp;18:12:07</span>
-            <span class="log-badge badge-mid">СЕРЕДНІЙ</span>
-          </div>
-          <div class="log-body">
-            <p>Знайшов старий проєкт на жорсткому диску. Не пам'ятаю, що це таке. Файл називається <code>ФІНАЛЬНА_ВЕРСІЯ_ТОЧНО_ФІНАЛЬНА_v47.zip</code>. Всередині&nbsp;— ще три архіви. Розслідування триває.</p>
-          </div>
-          <div class="log-tags">
-            <span class="log-tag">#архів</span>
-            <span class="log-tag">#археологія</span>
-            <span class="log-tag">#страх</span>
-          </div>
-        </article>
-
-        <article class="log-entry reveal" aria-label="Запис журналу 03">
-          <div class="log-head">
-            <span class="log-id">[LOG&nbsp;03]</span>
-            <span class="log-date">2024.05.20&nbsp;//&nbsp;23:58:41</span>
-            <span class="log-badge badge-high">ВАЖЛИВИЙ</span>
-          </div>
-          <div class="log-body">
-            <p>Сайт живий. Це офіційно найбільше досягнення за останні три місяці. Планую додати ще п'ять секцій, переробити дизайн і написати сорок записів у журналі. Або&nbsp;— ні. Подивимось.</p>
-          </div>
-          <div class="log-tags">
-            <span class="log-tag">#сайт</span>
-            <span class="log-tag">#успіх</span>
-            <span class="log-tag">#можливо</span>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────────
-       SECTION 06 — КОНТАКТ
-  ───────────────────────────────────────────── -->
-  <section id="contact" class="section contact-section" aria-labelledby="contactTitle">
-    <div class="container">
-      <header class="section-header reveal">
-        <span class="section-label">// СЕКЦІЯ&nbsp;06</span>
-        <h2 class="section-title" id="contactTitle">КОНТАКТ</h2>
-      </header>
-
-      <div class="contact-wrap">
-        <div class="contact-terminal reveal" aria-label="Комунікаційний термінал">
-          <div class="ct-header">
-            <span class="ct-title">КОМУНІКАЦІЙНИЙ&nbsp;ТЕРМІНАЛ</span>
-            <span class="ct-ready">
-              <span class="pulse-dot pulse-dot--sm" aria-hidden="true"></span>
-              ГОТОВО
-            </span>
-          </div>
-          <div class="ct-body">
-            <p><span class="ct-prompt" aria-hidden="true">&gt;</span> Якщо ви хочете зв'язатися — натисніть кнопку нижче.</p>
-            <p><span class="ct-prompt" aria-hidden="true">&gt;</span> Повідомлення буде доставлено найближчим часом.</p>
-            <p><span class="ct-prompt" aria-hidden="true">&gt;</span> Або ні. Залежить від обставин.</p>
-            <p><span class="ct-prompt" aria-hidden="true">&gt;</span> <span class="cursor-blink" aria-hidden="true">_</span></p>
-          </div>
-        </div>
-
-        <button class="btn-signal reveal" id="sendSignalBtn" type="button">
-          <span class="signal-ripple" aria-hidden="true"></span>
-          <span class="btn-signal-text">
-            <span class="btn-bracket" aria-hidden="true">[</span>
-            НАДІСЛАТИ&nbsp;СИГНАЛ
-            <span class="btn-bracket" aria-hidden="true">]</span>
-          </span>
-        </button>
-
-        <p class="signal-feedback" id="signalFeedback" aria-live="polite"></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────────
-       EASTER EGG MODAL
-  ───────────────────────────────────────────── -->
-  <div class="modal-backdrop" id="easterEggModal" aria-modal="true" role="dialog"
-    aria-label="Абсолютно не секретні файли" hidden>
-    <div class="modal-box">
-      <div class="modal-head">
-        <span class="modal-fileid">ФАЙЛ:&nbsp;АБСОЛЮТНО-НЕ-СЕКРЕТНО</span>
-        <button class="modal-close" id="closeModal" aria-label="Закрити">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-watermark" aria-hidden="true">РОЗСЕКРЕЧЕНО</div>
-        <h3 class="modal-title">УВАГА!</h3>
-        <p class="modal-msg">доступ до абсолютно не секретних файлів відкрито</p>
-        <p class="modal-sub">Ви знайшли прихований файл. Вітаємо. Всередині нічого цікавого немає, але ви молодець, що шукали.</p>
-        <div class="modal-log" id="modalLog" aria-live="polite">
-          <span class="mlog-line">&gt;&nbsp;ЗАВАНТАЖЕННЯ АБСОЛЮТНО НЕ СЕКРЕТНИХ ФАЙЛІВ...</span>
-          <span class="mlog-line">&gt;&nbsp;ФАЙЛІВ ЗНАЙДЕНО: 0</span>
-          <span class="mlog-line">&gt;&nbsp;ПОМИЛОК ЗНАЙДЕНО: 0</span>
-          <span class="mlog-line">&gt;&nbsp;ТАЄМНИЦЬ: НЕМАЄ</span>
-          <span class="mlog-line">&gt;&nbsp;КАВА: МОЖЛИВО</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─────────────────────────────────────────────
-       FOOTER
-  ───────────────────────────────────────────── -->
-  <footer class="site-footer" aria-label="Підвал сайту">
-    <div class="footer-inner">
-      <span>НЕ-ДУЖЕ-СЕКРЕТНО&nbsp;//&nbsp;UA-7734-НДС</span>
-      <span class="footer-status">
-        <span class="pulse-dot pulse-dot--sm" aria-hidden="true"></span>
-        СИСТЕМА&nbsp;АКТИВНА
-      </span>
-      <span>УСІХ&nbsp;ПРАВ&nbsp;НЕ&nbsp;ЗАХИЩЕНО</span>
-    </div>
+  <footer class="site-footer">
+    <span>ne-duzhe-sekretno.eu</span>
+    <span data-i18n="footerText">усіх прав не захищено</span>
   </footer>
 
   <script src="script.js"></script>
