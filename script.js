@@ -131,39 +131,88 @@ function pause(ms) {
 
 
 /* ─────────────────────────────────────────────
-   NAVIGATION: SCROLL + ACTIVE STATE
+   NAVIGATION: CLICK-OPEN SECTION VIEWER
 ───────────────────────────────────────────── */
 (function initNav() {
   var nav         = document.getElementById('nav');
   var navToggle   = document.getElementById('navToggle');
   var navLinks    = document.getElementById('navLinks');
   var allNavLinks = document.querySelectorAll('.nav-link');
+  var sections    = document.querySelectorAll('section[id]');
   if (!nav) return;
 
-  /* Sticky style on scroll */
-  function onScroll() {
-    if (window.scrollY > 60) {
+  function setNavStyle() {
+    if (window.scrollY > 20) {
       nav.classList.add('scrolled');
     } else {
       nav.classList.remove('scrolled');
     }
+  }
 
-    /* Active link tracking */
-    var offset = window.scrollY + 110;
-    document.querySelectorAll('section[id]').forEach(function(sec) {
-      var top    = sec.offsetTop;
-      var bottom = top + sec.offsetHeight;
-      var id     = sec.getAttribute('id');
-      var link   = document.querySelector('.nav-link[data-section="' + id + '"]');
-      if (!link) return;
-      if (offset >= top && offset < bottom) {
-        allNavLinks.forEach(function(l) { l.classList.remove('active'); });
-        link.classList.add('active');
-      }
+  function makeRevealsVisible(section) {
+    if (!section) return;
+    section.querySelectorAll('.reveal').forEach(function(el) {
+      el.classList.add('visible');
     });
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+
+  function showSection(id, options) {
+    var target = document.getElementById(id) || document.getElementById('home');
+    if (!target) return;
+
+    sections.forEach(function(section) {
+      var active = section === target;
+      section.classList.toggle('is-active-section', active);
+      section.setAttribute('aria-hidden', String(!active));
+    });
+
+    allNavLinks.forEach(function(link) {
+      link.classList.toggle('active', link.getAttribute('data-section') === target.id);
+    });
+
+    makeRevealsVisible(target);
+
+    if (!options || options.updateHash !== false) {
+      history.replaceState(null, '', '#' + target.id);
+    }
+    if (!options || options.keepScroll !== true) {
+      window.scrollTo({ top: 0, behavior: options && options.instant ? 'auto' : 'smooth' });
+    }
+    setNavStyle();
+  }
+
+  function showFromHash() {
+    var hash = (window.location.hash || '#home').slice(1);
+    var hashedEl = document.getElementById(hash);
+    if (hashedEl && hashedEl.tagName && hashedEl.tagName.toLowerCase() === 'section') {
+      showSection(hash, { updateHash: false, instant: true });
+      return;
+    }
+    if (hashedEl) {
+      var ownerSection = hashedEl.closest('section[id]');
+      if (ownerSection) {
+        showSection(ownerSection.id, { updateHash: false, instant: true });
+        setTimeout(function() { hashedEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
+        return;
+      }
+    }
+    showSection('home', { updateHash: false, instant: true });
+  }
+
+  allNavLinks.forEach(function(link) {
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+      showSection(link.getAttribute('data-section'));
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  window.showSiteSection = showSection;
+  window.addEventListener('hashchange', showFromHash);
+  window.addEventListener('scroll', setNavStyle, { passive: true });
+  showFromHash();
 
   /* Mobile hamburger */
   if (navToggle && navLinks) {
@@ -173,14 +222,6 @@ function pause(ms) {
       navToggle.setAttribute('aria-expanded', String(open));
     });
 
-    /* Close drawer when a link is tapped */
-    allNavLinks.forEach(function(link) {
-      link.addEventListener('click', function() {
-        navLinks.classList.remove('open');
-        navToggle.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
   }
 })();
 
@@ -193,13 +234,11 @@ function pause(ms) {
   var trophyBtn = document.getElementById('openTrophyBtn');
 
   if (btn) btn.addEventListener('click', function() {
-    var target = document.getElementById('about');
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    if (window.showSiteSection) window.showSiteSection('about');
   });
 
   if (trophyBtn) trophyBtn.addEventListener('click', function() {
-    var target = document.getElementById('trophies');
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    if (window.showSiteSection) window.showSiteSection('trophies');
   });
 })();
 
@@ -416,6 +455,7 @@ function pause(ms) {
     'УЗГОДЬТЕ ОПЛАТУ': 'ARRANGE PAYMENT',
     'Реальні платежі краще підключати через безпечний сервіс.': 'Real payments should be connected through a secure service.',
     'ДОСТУП ПРОДАВЦЯ': 'SELLER ACCESS',
+    'ПОТРІБЕН КОД': 'CODE REQUIRED',
     'Спеціальний код продавця': 'Special seller code',
     'УВІЙТИ': 'ENTER',
     'Підказка: код можна змінити в script.js.': 'Hint: the code can be changed in script.js.',
@@ -569,6 +609,12 @@ function pause(ms) {
     setAttr('#bustPrevious', 'aria-label', 'Previous bust');
     setAttr('#bustNext', 'aria-label', 'Next bust');
     setAttr('.bust-pagination', 'aria-label', 'Bust selection');
+    setAttr('.trophy-categories', 'aria-label', 'Trophy categories');
+    setAttr('#sellerCode', 'placeholder', 'ENTER CODE');
+    setAttr('#trophyName', 'placeholder', 'E.G. CHAMPION CUP');
+    setAttr('#trophyOldPrice', 'placeholder', '€60');
+    setAttr('#trophyCondition', 'placeholder', 'GOOD / RESTORED');
+    setAttr('#trophyDescription', 'placeholder', 'SHORT HISTORY, CONDITION, SIZE...');
     document.querySelectorAll('.bust-dot').forEach(function(dot, index) {
       dot.setAttribute('aria-label', 'Bust ' + (index + 1));
     });

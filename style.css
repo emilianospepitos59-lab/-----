@@ -309,7 +309,23 @@ body.cursor-active .cursor { opacity: 1; }
 /* ────────────────────────────────────────────────
    LAYOUT PRIMITIVES
 ──────────────────────────────────────────────── */
-.section { padding: 96px 0; position: relative; }
+.section {
+  display: none;
+  padding: 96px 0;
+  position: relative;
+  min-height: calc(100vh - var(--nav-total));
+}
+.section:not(.is-active-section) { display: none !important; }
+.section.is-active-section {
+  display: block;
+  animation: sectionBoot .28s ease both;
+}
+.hero.is-active-section { display: flex; }
+
+@keyframes sectionBoot {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 .container {
   max-width: var(--max-w);
