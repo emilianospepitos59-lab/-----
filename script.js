@@ -4,6 +4,8 @@
 
 'use strict';
 
+var siteLanguage = localStorage.getItem('nds-language') === 'en' ? 'en' : 'uk';
+
 /* ─────────────────────────────────────────────
    CUSTOM CURSOR
 ───────────────────────────────────────────── */
@@ -97,8 +99,15 @@ function pause(ms) {
   var terminalEl    = document.getElementById('terminalText');
   if (!subtitleEl || !terminalEl) return;
 
-  var subtitleText = 'Особистий архів дивних ідей та випадкових проєктів';
-  var terminalSteps = [
+  var subtitleText = siteLanguage === 'en'
+    ? 'A personal archive of strange ideas and accidental projects'
+    : 'Особистий архів дивних ідей та випадкових проєктів';
+  var terminalSteps = siteLanguage === 'en' ? [
+    'initializing system...',
+    'loading files...',
+    'verifying access...',
+    'access granted.',
+  ] : [
     'ініціалізація системи...',
     'завантаження файлів...',
     'перевірка доступу...',
@@ -230,7 +239,12 @@ function pause(ms) {
   var feedback = document.getElementById('signalFeedback');
   if (!btn || !feedback) return;
 
-  var steps = [
+  var steps = siteLanguage === 'en' ? [
+    '> SIGNAL SENT...',
+    '> CONNECTION ESTABLISHED.',
+    '> WAITING FOR A RESPONSE...',
+    '> RESPONSE: SOON™',
+  ] : [
     '> СИГНАЛ НАДІСЛАНО...',
     '> ЗВ\'ЯЗОК ВСТАНОВЛЕНО.',
     '> ОЧІКУВАННЯ ВІДПОВІДІ...',
@@ -345,4 +359,176 @@ function pause(ms) {
     setTimeout(function() { glitch(); schedule(); }, delay);
   }
   schedule();
+})();
+
+
+/* ─────────────────────────────────────────────
+   LANGUAGE SWITCHER — UKRAINIAN / ENGLISH
+───────────────────────────────────────────── */
+(function initLanguageSwitcher() {
+  var textMap = {
+    'СИСТЕМА ОНЛАЙН': 'SYSTEM ONLINE',
+    'ГОЛОВНА': 'HOME',
+    'ПРО МЕНЕ': 'ABOUT ME',
+    'ПРОЄКТИ': 'PROJECTS',
+    'ГАЛЕРЕЯ': 'GALLERY',
+    'ЖУРНАЛ': 'LOG',
+    'КОНТАКТ': 'CONTACT',
+    'НЕ ДУЖЕ': 'NOT VERY',
+    'СЕКРЕТНО': 'SECRET',
+    'РІВЕНЬ ДОСТУПУ: НЕ-ДУЖЕ-СЕКРЕТНО': 'ACCESS LEVEL: NOT-VERY-SECRET',
+    'ДАТА:': 'DATE:',
+    'СТАТУС: ВІДКРИТО': 'STATUS: OPEN',
+    'НЕ-ДУЖЕ-СЕКРЕТНО': 'NOT-VERY-SECRET',
+    'ВІДКРИТИ ДОСЬЄ': 'OPEN DOSSIER',
+    '// СЕКЦІЯ 02': '// SECTION 02',
+    '// СЕКЦІЯ 03': '// SECTION 03',
+    '// СЕКЦІЯ 04': '// SECTION 04',
+    '// СЕКЦІЯ 05': '// SECTION 05',
+    '// СЕКЦІЯ 06': '// SECTION 06',
+    'ПЕРЕВІРЕНО': 'VERIFIED',
+    'ЗАСЕКРЕЧЕНО': 'CLASSIFIED',
+    'ІМ\'Я:': 'NAME:',
+    '[ВИЛУЧЕНО]': '[REDACTED]',
+    'СТАТУС:': 'STATUS:',
+    'АКТИВНИЙ': 'ACTIVE',
+    'СПЕЦІАЛІЗАЦІЯ:': 'SPECIALIZATION:',
+    'ДИВНІ ПРОЄКТИ': 'STRANGE PROJECTS',
+    'РІВЕНЬ НЕБЕЗПЕКИ:': 'DANGER LEVEL:',
+    'НИЗЬКИЙ (ЗДЕБІЛЬШОГО)': 'LOW (MOSTLY)',
+    'МІСЦЕЗНАХОДЖЕННЯ:': 'LOCATION:',
+    '[ВІДСТЕЖУЄТЬСЯ]': '[TRACKED]',
+    'Тут повинна бути серйозна інформація про мене, але поки що її немає.': 'There should be serious information about me here, but there is none yet.',
+    'Натомість можу повідомити, що я існую, маю кілька проєктів і іноді виходжу на зв\'язок. Решта інформації наразі перебуває на стадії «придумати щось розумне написати».': 'Instead, I can report that I exist, have a few projects, and occasionally make contact. The rest is still at the “think of something smart to write” stage.',
+    'Дані оновлюються. Можливо.': 'Data is being updated. Possibly.',
+    'ВІДЕО': 'VIDEO',
+    'Відеоматеріали різного ступеня серйозності. Можливо, є щось цікаве серед записів.': 'Video material of various degrees of seriousness. There may be something interesting among the recordings.',
+    'МЕДІА': 'MEDIA',
+    'ІСТОРІЯ': 'HISTORY',
+    'В ПРОЦЕСІ': 'IN PROGRESS',
+    'Записи, хроніки та зафіксовані події. Деякі з них навіть правдиві.': 'Records, chronicles, and documented events. Some of them are even true.',
+    'АРХІВ': 'ARCHIVE',
+    'Рольові ігри та альтернативні реальності. Персонажі мають своє листування.': 'Role-playing games and alternate realities. The characters have their own correspondence.',
+    'МЕРЕЖА': 'NETWORK',
+    'МАПІНГ': 'MAPPING',
+    'Карти, схеми та просторові дані. Географія дивних місць та маршрутів.': 'Maps, diagrams, and spatial data. Geography of strange places and routes.',
+    'ГЕО': 'GEO',
+    'ДИВНІ ЕКСПЕРИМЕНТИ': 'STRANGE EXPERIMENTS',
+    'НЕВІДОМО': 'UNKNOWN',
+    'Категорія для всього, що не підходить під інші категорії. Може бути небезпечним. Скоріш за все — ні. Але хто знає.': 'A category for everything that does not fit anywhere else. It may be dangerous. Probably not. But who knows.',
+    'НЕВІДОМА КАТЕГОРІЯ': 'UNKNOWN CATEGORY',
+    'ЗОБРАЖЕННЯ ВИЛУЧЕНО': 'IMAGE REMOVED',
+    'ПРИЧИНА: НАДТО СЕКРЕТНЕ': 'REASON: TOO SECRET',
+    'ЛОКАЦІЮ ВИЗНАЧЕНО': 'LOCATION IDENTIFIED',
+    'ІМ\'Я: [ВИЛУЧЕНО]': 'NAME: [REDACTED]',
+    'ВІДДІЛ: ХАОС ТА ТВОРЧІСТЬ': 'DIVISION: CHAOS AND CREATIVITY',
+    'СТАТУС: НЕВІДОМИЙ': 'STATUS: UNKNOWN',
+    'РІВЕНЬ ЗАГРОЗИ: МІНІМАЛЬНИЙ': 'THREAT LEVEL: MINIMAL',
+    'ПІДТВ.': 'VERIF.',
+    'ГРАФІК ДИВНОЇ АКТИВНОСТІ 2024': 'STRANGE ACTIVITY GRAPH 2024',
+    'КАРТА: МАРШРУТ НЕВІДОМИЙ': 'MAP: ROUTE UNKNOWN',
+    'ФАЙЛ ПОШКОДЖЕНО': 'FILE DAMAGED',
+    'СПРОБА ВІДНОВЛЕННЯ...': 'RECOVERY ATTEMPT...',
+    '60% ЗАВЕРШЕНО': '60% COMPLETE',
+    'ОСОБОВА СПРАВА': 'PERSONAL FILE',
+    'КООРДИНАТИ': 'COORDINATES',
+    'АНАЛІЗ ДАНИХ': 'DATA ANALYSIS',
+    'ТОПОГРАФІЯ': 'TOPOGRAPHY',
+    'ПОШКОДЖЕНО': 'DAMAGED',
+    'НИЗЬКИЙ': 'LOW',
+    'СЕРЕДНІЙ': 'MEDIUM',
+    'ВАЖЛИВИЙ': 'IMPORTANT',
+    'Сьогодні намагався систематизувати всі свої проєкти. Нарахував їх тридцять сім. Завершених — нуль. Це не може бути нормальним явищем. Почну нову таблицю.': 'Today I tried to organize all my projects. I counted thirty-seven. Completed: zero. This cannot be normal. I will start a new spreadsheet.',
+    '#організація': '#organization',
+    '#проблеми': '#problems',
+    '#таблиці-не-допомагають': '#spreadsheets-do-not-help',
+    '#архів': '#archive',
+    '#археологія': '#archaeology',
+    '#страх': '#fear',
+    'Сайт живий. Це офіційно найбільше досягнення за останні три місяці. Планую додати ще п\'ять секцій, переробити дизайн і написати сорок записів у журналі. Або — ні. Подивимось.': 'The site is alive. Officially my biggest achievement of the last three months. I plan to add five more sections, redesign everything, and write forty log entries. Or not. We will see.',
+    '#сайт': '#site',
+    '#успіх': '#success',
+    '#можливо': '#possibly',
+    'КОМУНІКАЦІЙНИЙ ТЕРМІНАЛ': 'COMMUNICATION TERMINAL',
+    'ГОТОВО': 'READY',
+    'Якщо ви хочете зв\'язатися — натисніть кнопку нижче.': 'If you want to get in touch, press the button below.',
+    'Повідомлення буде доставлено найближчим часом.': 'The message will be delivered as soon as possible.',
+    'Або ні. Залежить від обставин.': 'Or not. It depends on the circumstances.',
+    'НАДІСЛАТИ СИГНАЛ': 'SEND SIGNAL',
+    'ФАЙЛ: АБСОЛЮТНО-НЕ-СЕКРЕТНО': 'FILE: ABSOLUTELY-NOT-SECRET',
+    'РОЗСЕКРЕЧЕНО': 'DECLASSIFIED',
+    'УВАГА!': 'ATTENTION!',
+    'доступ до абсолютно не секретних файлів відкрито': 'access to absolutely not secret files granted',
+    'Ви знайшли прихований файл. Вітаємо. Всередині нічого цікавого немає, але ви молодець, що шукали.': 'You found a hidden file. Congratulations. There is nothing interesting inside, but good work for looking.',
+    '> ЗАВАНТАЖЕННЯ АБСОЛЮТНО НЕ СЕКРЕТНИХ ФАЙЛІВ...': '> LOADING ABSOLUTELY NOT SECRET FILES...',
+    '> ФАЙЛІВ ЗНАЙДЕНО: 0': '> FILES FOUND: 0',
+    '> ПОМИЛОК ЗНАЙДЕНО: 0': '> ERRORS FOUND: 0',
+    '> ТАЄМНИЦЬ: НЕМАЄ': '> SECRETS: NONE',
+    '> КАВА: МОЖЛИВО': '> COFFEE: POSSIBLY',
+    'СИСТЕМА АКТИВНА': 'SYSTEM ACTIVE',
+    'УСІХ ПРАВ НЕ ЗАХИЩЕНО': 'ALL RIGHTS UNSECURED'
+  };
+
+  function translateTextNodes() {
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    var nodes = [];
+    var node;
+
+    while ((node = walker.nextNode())) nodes.push(node);
+
+    nodes.forEach(function(textNode) {
+      var original = textNode.nodeValue;
+      var normalized = original.replace(/\s+/g, ' ').trim();
+      var replacement = textMap[normalized];
+
+      if (!replacement) return;
+
+      var leading = (original.match(/^\s*/) || [''])[0];
+      var trailing = (original.match(/\s*$/) || [''])[0];
+      textNode.nodeValue = leading + replacement + trailing;
+    });
+  }
+
+  function translateLongLogEntry() {
+    var logEntries = document.querySelectorAll('.log-entry .log-body p');
+    if (logEntries[1]) {
+      logEntries[1].innerHTML =
+        'I found an old project on a hard drive. I do not remember what it is. ' +
+        'The file is called <code>FINAL_VERSION_DEFINITELY_FINAL_v47.zip</code>. ' +
+        'Inside are three more archives. The investigation continues.';
+    }
+  }
+
+  function updateEnglishAttributes() {
+    document.documentElement.lang = 'en';
+    document.title = 'NOT-VERY-SECRET';
+    document.querySelector('meta[name="description"]').setAttribute(
+      'content',
+      'NOT-VERY-SECRET — a personal archive of strange ideas and accidental projects'
+    );
+    document.getElementById('nav').setAttribute('aria-label', 'Main navigation');
+    document.getElementById('navToggle').setAttribute('aria-label', 'Open menu');
+    document.getElementById('openFileBtn').setAttribute('aria-label', 'Open dossier');
+    document.getElementById('sendSignalBtn').setAttribute('aria-label', 'Send signal');
+    document.getElementById('closeModal').setAttribute('aria-label', 'Close');
+  }
+
+  function setLanguage(language) {
+    localStorage.setItem('nds-language', language);
+    window.location.reload();
+  }
+
+  document.querySelectorAll('.language-button').forEach(function(button) {
+    var selected = button.getAttribute('data-language') === siteLanguage;
+    button.setAttribute('aria-pressed', String(selected));
+    button.addEventListener('click', function() {
+      setLanguage(button.getAttribute('data-language'));
+    });
+  });
+
+  if (siteLanguage === 'en') {
+    translateTextNodes();
+    translateLongLogEntry();
+    updateEnglishAttributes();
+  }
 })();

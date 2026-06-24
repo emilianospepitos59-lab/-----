@@ -259,6 +259,33 @@ body.cursor-active .cursor { opacity: 1; }
 .nav-link:hover::after,
 .nav-link.active::after { transform: scaleX(1); }
 
+/* Language switch */
+.language-switch {
+  display: flex;
+  margin-left: 12px;
+  border: 1px solid var(--bd-normal);
+}
+.language-button {
+  min-width: 38px;
+  height: 26px;
+  padding: 0 8px;
+  border: 0;
+  background: transparent;
+  color: var(--tx-dim);
+  cursor: pointer;
+  font-size: .65rem;
+  letter-spacing: .1em;
+  transition: color var(--ease-fast), background var(--ease-fast);
+}
+.language-button + .language-button {
+  border-left: 1px solid var(--bd-normal);
+}
+.language-button:hover,
+.language-button[aria-pressed="true"] {
+  background: var(--ac-dark);
+  color: var(--ac-bright);
+}
+
 /* Hamburger */
 .nav-toggle {
   display: none;
@@ -1068,6 +1095,7 @@ body.cursor-active .cursor { opacity: 1; }
   }
   .nav-links.open { transform: translateY(0); }
   .nav-toggle { display: flex; }
+  .language-switch { margin-left: auto; margin-right: 10px; }
 
   /* Disable custom cursor on touch */
   body { cursor: auto; }
