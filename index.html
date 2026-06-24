@@ -42,6 +42,7 @@
     <ul class="nav-links" id="navLinks" role="list">
       <li><a href="#home"     class="nav-link" data-section="home">ГОЛОВНА</a></li>
       <li><a href="#busts"    class="nav-link" data-section="busts">БЮСТИ</a></li>
+      <li><a href="#trophies" class="nav-link" data-section="trophies">ТРОФЕЇ</a></li>
       <li><a href="#about"    class="nav-link" data-section="about">ПРО&nbsp;МЕНЕ</a></li>
       <li><a href="#projects" class="nav-link" data-section="projects">ПРОЄКТИ</a></li>
       <li><a href="#gallery"  class="nav-link" data-section="gallery">ГАЛЕРЕЯ</a></li>
@@ -89,11 +90,18 @@
           class="cursor-blink" aria-hidden="true">_</span>
       </div>
 
-      <button class="btn-primary" id="openFileBtn">
-        <span class="btn-bracket" aria-hidden="true">[</span>
-        ВІДКРИТИ&nbsp;ДОСЬЄ
-        <span class="btn-bracket" aria-hidden="true">]</span>
-      </button>
+      <div class="hero-actions">
+        <button class="btn-primary" id="openFileBtn">
+          <span class="btn-bracket" aria-hidden="true">[</span>
+          ВІДКРИТИ&nbsp;ДОСЬЄ
+          <span class="btn-bracket" aria-hidden="true">]</span>
+        </button>
+        <button class="btn-primary btn-primary--alt" id="openTrophyBtn">
+          <span class="btn-bracket" aria-hidden="true">[</span>
+          МАГАЗИН&nbsp;ТРОФЕЇВ
+          <span class="btn-bracket" aria-hidden="true">]</span>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -139,10 +147,139 @@
     </div>
   </section>
 
-  <section id="about" class="section about-section" aria-labelledby="aboutTitle">
+  <!-- ─────────────────────────────────────────────
+       SECTION 03 — ТРОФЕЇ
+  ───────────────────────────────────────────── -->
+  <section id="trophies" class="section trophies-section" aria-labelledby="trophiesTitle">
     <div class="container">
       <header class="section-header reveal">
         <span class="section-label">// СЕКЦІЯ&nbsp;03</span>
+        <h2 class="section-title" id="trophiesTitle">МАГАЗИН&nbsp;ТРОФЕЇВ</h2>
+      </header>
+
+      <div class="trophy-panel reveal">
+        <div class="trophy-intro">
+          <span class="trophy-kicker">MARKET-7734</span>
+          <p>Тут можна виставляти трофеї на продаж: кубки, дивні нагороди, пам'ятні об'єкти та інші речі з підозрілою історією.</p>
+          <a class="btn-primary trophy-jump" href="#sellerAccess">
+            <span class="btn-bracket" aria-hidden="true">[</span>
+            ДОСТУП&nbsp;ПРОДАВЦЯ
+            <span class="btn-bracket" aria-hidden="true">]</span>
+          </a>
+        </div>
+
+        <div class="trophy-notice">
+          <strong>ВАЖЛИВО:</strong>
+          <span>Це демонстраційна зона продажу. Для справжніх оплат потрібно підключити кошик, оплату та безпечний сервер.</span>
+        </div>
+
+        <div class="trophy-categories" aria-label="Категорії трофеїв">
+          <button class="trophy-category is-active" type="button" data-category="all">УСЕ</button>
+          <button class="trophy-category" type="button" data-category="cups">КУБКИ</button>
+          <button class="trophy-category" type="button" data-category="medals">МЕДАЛІ</button>
+          <button class="trophy-category" type="button" data-category="souvenirs">СУВЕНІРИ</button>
+          <button class="trophy-category" type="button" data-category="other">ІНШЕ</button>
+        </div>
+
+        <div class="trophy-ledger" aria-live="polite">
+          <div class="trophy-ledger-head">
+            <span>НОВІ НАДХОДЖЕННЯ</span>
+            <span id="trophyCount">000</span>
+          </div>
+          <div class="trophy-grid" id="trophyListings"></div>
+        </div>
+
+        <div class="how-order">
+          <article>
+            <span>01</span>
+            <strong>ОБЕРІТЬ ТРОФЕЙ</strong>
+            <p>Перегляньте категорії та відкрийте запит на купівлю.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>НАПИШІТЬ ПРОДАВЦЮ</strong>
+            <p>Кнопка створить лист із назвою трофея, якщо контакт — email.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>УЗГОДЬТЕ ОПЛАТУ</strong>
+            <p>Реальні платежі краще підключати через безпечний сервіс.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="seller-console reveal" id="sellerAccess">
+        <div class="seller-console-head">
+          <span>SELLER ACCESS</span>
+          <strong>CODE REQUIRED</strong>
+        </div>
+
+        <form class="seller-code-form" id="sellerCodeForm">
+          <label for="sellerCode">Спеціальний код продавця</label>
+          <div class="seller-code-row">
+            <input id="sellerCode" type="password" placeholder="ВВЕДІТЬ КОД" autocomplete="off">
+            <button class="btn-primary" type="submit">УВІЙТИ</button>
+          </div>
+          <p class="seller-feedback" id="sellerFeedback" aria-live="polite">Підказка: код можна змінити в script.js.</p>
+        </form>
+
+        <form class="seller-post-form" id="sellerPostForm" hidden>
+          <div class="seller-form-grid">
+            <label>
+              Назва трофея
+              <input id="trophyName" type="text" maxlength="64" required placeholder="НАПР. КУБОК ЧЕМПІОНА">
+            </label>
+            <label>
+              Ціна
+              <input id="trophyPrice" type="text" maxlength="24" required placeholder="€45">
+            </label>
+            <label>
+              Стара ціна
+              <input id="trophyOldPrice" type="text" maxlength="24" placeholder="€60">
+            </label>
+            <label>
+              Статус
+              <select id="trophyStatus">
+                <option value="available">ДОСТУПНО</option>
+                <option value="reserved">ЗАРЕЗЕРВОВАНО</option>
+                <option value="sold">ПРОДАНО</option>
+              </select>
+            </label>
+            <label>
+              Категорія
+              <select id="trophyCategory">
+                <option value="cups">КУБКИ</option>
+                <option value="medals">МЕДАЛІ</option>
+                <option value="souvenirs">СУВЕНІРИ</option>
+                <option value="other">ІНШЕ</option>
+              </select>
+            </label>
+            <label>
+              Стан
+              <input id="trophyCondition" type="text" maxlength="42" placeholder="ДОБРИЙ / ВІДНОВЛЕНО">
+            </label>
+            <label>
+              Контакт
+              <input id="trophyContact" type="text" maxlength="80" placeholder="email@example.eu">
+            </label>
+          </div>
+          <label>
+            Опис
+            <textarea id="trophyDescription" maxlength="220" required placeholder="КОРОТКА ІСТОРІЯ, СТАН, РОЗМІР..."></textarea>
+          </label>
+          <div class="seller-actions">
+            <button class="btn-primary" type="submit">ОПУБЛІКУВАТИ</button>
+            <button class="btn-primary btn-primary--alt" type="button" id="clearTrophiesBtn">ОЧИСТИТИ МОЇ ПОСТИ</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section about-section" aria-labelledby="aboutTitle">
+    <div class="container">
+      <header class="section-header reveal">
+        <span class="section-label">// СЕКЦІЯ&nbsp;04</span>
         <h2 class="section-title" id="aboutTitle">ПРО&nbsp;МЕНЕ</h2>
       </header>
 
@@ -199,12 +336,12 @@
   </section>
 
   <!-- ─────────────────────────────────────────────
-       SECTION 04 — ПРОЄКТИ
+       SECTION 05 — ПРОЄКТИ
   ───────────────────────────────────────────── -->
   <section id="projects" class="section projects-section" aria-labelledby="projectsTitle">
     <div class="container">
       <header class="section-header reveal">
-        <span class="section-label">// СЕКЦІЯ&nbsp;04</span>
+        <span class="section-label">// СЕКЦІЯ&nbsp;05</span>
         <h2 class="section-title" id="projectsTitle">ПРОЄКТИ</h2>
       </header>
 
@@ -323,12 +460,12 @@
   </section>
 
   <!-- ─────────────────────────────────────────────
-       SECTION 05 — ГАЛЕРЕЯ
+       SECTION 06 — ГАЛЕРЕЯ
   ───────────────────────────────────────────── -->
   <section id="gallery" class="section gallery-section" aria-labelledby="galleryTitle">
     <div class="container">
       <header class="section-header reveal">
-        <span class="section-label">// СЕКЦІЯ&nbsp;05</span>
+        <span class="section-label">// СЕКЦІЯ&nbsp;06</span>
         <h2 class="section-title" id="galleryTitle">ГАЛЕРЕЯ</h2>
       </header>
 
@@ -479,12 +616,12 @@
   </section>
 
   <!-- ─────────────────────────────────────────────
-       SECTION 06 — ЖУРНАЛ
+       SECTION 07 — ЖУРНАЛ
   ───────────────────────────────────────────── -->
   <section id="log" class="section log-section" aria-labelledby="logTitle">
     <div class="container">
       <header class="section-header reveal">
-        <span class="section-label">// СЕКЦІЯ&nbsp;06</span>
+        <span class="section-label">// СЕКЦІЯ&nbsp;07</span>
         <h2 class="section-title" id="logTitle">ЖУРНАЛ</h2>
       </header>
 
@@ -543,12 +680,12 @@
   </section>
 
   <!-- ─────────────────────────────────────────────
-       SECTION 07 — КОНТАКТ
+       SECTION 08 — КОНТАКТ
   ───────────────────────────────────────────── -->
   <section id="contact" class="section contact-section" aria-labelledby="contactTitle">
     <div class="container">
       <header class="section-header reveal">
-        <span class="section-label">// СЕКЦІЯ&nbsp;07</span>
+        <span class="section-label">// СЕКЦІЯ&nbsp;08</span>
         <h2 class="section-title" id="contactTitle">КОНТАКТ</h2>
       </header>
 

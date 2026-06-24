@@ -190,9 +190,15 @@ function pause(ms) {
 ───────────────────────────────────────────── */
 (function initOpenFile() {
   var btn = document.getElementById('openFileBtn');
-  if (!btn) return;
-  btn.addEventListener('click', function() {
+  var trophyBtn = document.getElementById('openTrophyBtn');
+
+  if (btn) btn.addEventListener('click', function() {
     var target = document.getElementById('about');
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  if (trophyBtn) trophyBtn.addEventListener('click', function() {
+    var target = document.getElementById('trophies');
     if (target) target.scrollIntoView({ behavior: 'smooth' });
   });
 })();
@@ -370,6 +376,7 @@ function pause(ms) {
     'СИСТЕМА ОНЛАЙН': 'SYSTEM ONLINE',
     'ГОЛОВНА': 'HOME',
     'БЮСТИ': 'BUSTS',
+    'ТРОФЕЇ': 'TROPHIES',
     'ПРО МЕНЕ': 'ABOUT ME',
     'ПРОЄКТИ': 'PROJECTS',
     'ГАЛЕРЕЯ': 'GALLERY',
@@ -388,9 +395,43 @@ function pause(ms) {
     '// СЕКЦІЯ 05': '// SECTION 05',
     '// СЕКЦІЯ 06': '// SECTION 06',
     '// СЕКЦІЯ 07': '// SECTION 07',
+    '// СЕКЦІЯ 08': '// SECTION 08',
     'АРХІВ БЮСТІВ': 'BUST ARCHIVE',
     'В РОЗРОБЦІ': 'IN PROGRESS',
     'ЗОБРАЖЕННЯ АРХІВУ ОЧІКУЄТЬСЯ': 'ARCHIVE IMAGE PENDING',
+    'МАГАЗИН ТРОФЕЇВ': 'TROPHY MARKET',
+    'Тут можна виставляти трофеї на продаж: кубки, дивні нагороди, пам\'ятні об\'єкти та інші речі з підозрілою історією.': 'Post trophies for sale here: cups, strange awards, memorable objects, and other things with suspicious history.',
+    'ВАЖЛИВО:': 'IMPORTANT:',
+    'Це демонстраційна зона продажу. Для справжніх оплат потрібно підключити кошик, оплату та безпечний сервер.': 'This is a demo selling area. Real payments need a cart, payment provider, and secure server.',
+    'УСЕ': 'ALL',
+    'КУБКИ': 'CUPS',
+    'МЕДАЛІ': 'MEDALS',
+    'СУВЕНІРИ': 'SOUVENIRS',
+    'ІНШЕ': 'OTHER',
+    'НОВІ НАДХОДЖЕННЯ': 'NEW ARRIVALS',
+    'ОБЕРІТЬ ТРОФЕЙ': 'CHOOSE A TROPHY',
+    'Перегляньте категорії та відкрийте запит на купівлю.': 'Browse categories and open a purchase request.',
+    'НАПИШІТЬ ПРОДАВЦЮ': 'MESSAGE THE SELLER',
+    'Кнопка створить лист із назвою трофея, якщо контакт — email.': 'The button creates an email with the trophy name when the contact is an email.',
+    'УЗГОДЬТЕ ОПЛАТУ': 'ARRANGE PAYMENT',
+    'Реальні платежі краще підключати через безпечний сервіс.': 'Real payments should be connected through a secure service.',
+    'ДОСТУП ПРОДАВЦЯ': 'SELLER ACCESS',
+    'Спеціальний код продавця': 'Special seller code',
+    'УВІЙТИ': 'ENTER',
+    'Підказка: код можна змінити в script.js.': 'Hint: the code can be changed in script.js.',
+    'Назва трофея': 'Trophy name',
+    'Ціна': 'Price',
+    'Стара ціна': 'Old price',
+    'Статус': 'Status',
+    'Категорія': 'Category',
+    'Стан': 'Condition',
+    'Контакт': 'Contact',
+    'ДОСТУПНО': 'AVAILABLE',
+    'ЗАРЕЗЕРВОВАНО': 'RESERVED',
+    'ПРОДАНО': 'SOLD',
+    'Опис': 'Description',
+    'ОПУБЛІКУВАТИ': 'PUBLISH',
+    'ОЧИСТИТИ МОЇ ПОСТИ': 'CLEAR MY POSTS',
     'ПЕРЕВІРЕНО': 'VERIFIED',
     'ЗАСЕКРЕЧЕНО': 'CLASSIFIED',
     'ІМ\'Я:': 'NAME:',
@@ -519,6 +560,7 @@ function pause(ms) {
     setAttr('#nav', 'aria-label', 'Main navigation');
     setAttr('#navToggle', 'aria-label', 'Open menu');
     setAttr('#openFileBtn', 'aria-label', 'Open dossier');
+    setAttr('#openTrophyBtn', 'aria-label', 'Open trophy shop');
     setAttr('#sendSignalBtn', 'aria-label', 'Send signal');
     setAttr('#closeModal', 'aria-label', 'Close');
     setAttr('#busts', 'aria-label', 'Bust archive');
@@ -550,6 +592,249 @@ function pause(ms) {
     translateLongLogEntry();
     updateEnglishAttributes();
   }
+})();
+
+
+/* TROPHY MARKET */
+(function initTrophyMarket() {
+  var listingsEl = document.getElementById('trophyListings');
+  var countEl = document.getElementById('trophyCount');
+  var codeForm = document.getElementById('sellerCodeForm');
+  var postForm = document.getElementById('sellerPostForm');
+  var feedback = document.getElementById('sellerFeedback');
+  var clearBtn = document.getElementById('clearTrophiesBtn');
+  var categoryButtons = document.querySelectorAll('.trophy-category');
+  if (!listingsEl || !countEl) return;
+
+  var sellerCode = 'TROPHY-7734';
+  var storageKey = 'nds-trophy-listings';
+  var activeCategory = 'all';
+
+  var defaultListings = siteLanguage === 'en' ? [
+    {
+      id: 'TR-001',
+      name: 'DUSTY VICTORY CUP',
+      price: '€45',
+      oldPrice: '€60',
+      status: 'available',
+      category: 'cups',
+      condition: 'GOOD / ARCHIVED',
+      contact: 'seller@example.eu',
+      description: 'A small metal cup with heroic scratches and absolutely no certificate of glory.'
+    },
+    {
+      id: 'TR-002',
+      name: 'GREEN FILE MEDAL',
+      price: '€18',
+      status: 'reserved',
+      category: 'medals',
+      condition: 'RESTORED',
+      contact: 'seller@example.eu',
+      description: 'Awarded for surviving a suspiciously long project folder. Ribbon included.'
+    },
+    {
+      id: 'TR-003',
+      name: 'CLASSIFIED DESK RELIC',
+      price: '€32',
+      status: 'available',
+      category: 'souvenirs',
+      condition: 'ODDLY CLEAN',
+      contact: 'seller@example.eu',
+      description: 'A souvenir object from an unknown desk. Emits strong administrative energy.'
+    }
+  ] : [
+    {
+      id: 'TR-001',
+      name: 'ПИЛЬНИЙ КУБОК ПЕРЕМОГИ',
+      price: '€45',
+      oldPrice: '€60',
+      status: 'available',
+      category: 'cups',
+      condition: 'ДОБРИЙ / В АРХІВІ',
+      contact: 'seller@example.eu',
+      description: 'Малий металевий кубок з героїчними подряпинами і без жодного сертифіката слави.'
+    },
+    {
+      id: 'TR-002',
+      name: 'МЕДАЛЬ ЗЕЛЕНОГО ФАЙЛУ',
+      price: '€18',
+      status: 'reserved',
+      category: 'medals',
+      condition: 'ВІДНОВЛЕНО',
+      contact: 'seller@example.eu',
+      description: 'Видана за виживання у підозріло довгій папці проєкту. Стрічка додається.'
+    },
+    {
+      id: 'TR-003',
+      name: 'ЗАСЕКРЕЧЕНИЙ НАСТІЛЬНИЙ РЕЛІКТ',
+      price: '€32',
+      status: 'available',
+      category: 'souvenirs',
+      condition: 'ПІДОЗРІЛО ЧИСТИЙ',
+      contact: 'seller@example.eu',
+      description: 'Сувенірний об’єкт з невідомого столу. Випромінює сильну адміністративну енергію.'
+    }
+  ];
+
+  var labels = siteLanguage === 'en' ? {
+    available: 'AVAILABLE',
+    reserved: 'RESERVED',
+    sold: 'SOLD',
+    request: 'REQUEST PURCHASE',
+    noContact: 'contact unavailable',
+    codeOk: 'Access granted. Seller console unlocked.',
+    codeBad: 'Access denied. Check the special code.',
+    published: 'Listing published locally.',
+    cleared: 'Local seller posts cleared.'
+  } : {
+    available: 'ДОСТУПНО',
+    reserved: 'ЗАРЕЗЕРВОВАНО',
+    sold: 'ПРОДАНО',
+    request: 'ЗАПИТ НА КУПІВЛЮ',
+    noContact: 'контакт недоступний',
+    codeOk: 'Доступ дозволено. Консоль продавця відкрито.',
+    codeBad: 'Доступ відхилено. Перевірте спеціальний код.',
+    published: 'Оголошення опубліковано локально.',
+    cleared: 'Локальні пости продавця очищено.'
+  };
+
+  var categoryLabels = siteLanguage === 'en' ? {
+    cups: 'CUPS',
+    medals: 'MEDALS',
+    souvenirs: 'SOUVENIRS',
+    other: 'OTHER'
+  } : {
+    cups: 'КУБКИ',
+    medals: 'МЕДАЛІ',
+    souvenirs: 'СУВЕНІРИ',
+    other: 'ІНШЕ'
+  };
+
+  function readListings() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      return (Array.isArray(saved) ? saved : []).concat(defaultListings);
+    } catch (e) {
+      return defaultListings;
+    }
+  }
+
+  function readCustomListings() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      return Array.isArray(saved) ? saved : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function escapeText(value) {
+    return String(value || '').replace(/[&<>"']/g, function(char) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[char];
+    });
+  }
+
+  function contactHref(item) {
+    if (!item.contact) return '#sellerAccess';
+    if (item.contact.indexOf('@') !== -1) {
+      return 'mailto:' + encodeURIComponent(item.contact) +
+        '?subject=' + encodeURIComponent('Trophy request: ' + item.name);
+    }
+    return '#sellerAccess';
+  }
+
+  function renderListings() {
+    var listings = readListings();
+    var visibleListings = listings.filter(function(item) {
+      return activeCategory === 'all' || item.category === activeCategory;
+    });
+    countEl.textContent = String(visibleListings.length).padStart(3, '0');
+    listingsEl.innerHTML = visibleListings.map(function(item, index) {
+      var status = item.status || 'available';
+      return '<article class="trophy-card">' +
+        '<span class="trophy-id">' + escapeText(item.id || ('TR-' + String(index + 1).padStart(3, '0'))) + '</span>' +
+        '<span class="trophy-category-label">' + escapeText(categoryLabels[item.category] || categoryLabels.other) + '</span>' +
+        '<h3 class="trophy-name">' + escapeText(item.name) + '</h3>' +
+        '<span class="trophy-condition">' + escapeText(item.condition || '') + '</span>' +
+        '<p class="trophy-desc">' + escapeText(item.description) + '</p>' +
+        '<div class="trophy-meta">' +
+          (item.oldPrice ? '<span class="trophy-old-price">' + escapeText(item.oldPrice) + '</span>' : '') +
+          '<span class="trophy-price">' + escapeText(item.price) + '</span>' +
+          '<span class="trophy-status trophy-status--' + escapeText(status) + '">' + escapeText(labels[status] || status) + '</span>' +
+        '</div>' +
+        '<a class="trophy-buy" href="' + contactHref(item) + '">' + escapeText(labels.request) + ' →</a>' +
+      '</article>';
+    }).join('');
+  }
+
+  function setFeedback(message, kind) {
+    if (!feedback) return;
+    feedback.textContent = message;
+    feedback.classList.remove('is-ok', 'is-error');
+    if (kind) feedback.classList.add(kind);
+  }
+
+  if (codeForm && postForm) {
+    codeForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      var codeInput = document.getElementById('sellerCode');
+      var code = codeInput ? codeInput.value.trim() : '';
+      if (code === sellerCode) {
+        postForm.hidden = false;
+        setFeedback(labels.codeOk, 'is-ok');
+        if (codeInput) codeInput.value = '';
+      } else {
+        setFeedback(labels.codeBad, 'is-error');
+      }
+    });
+
+    postForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      var customListings = readCustomListings();
+      var item = {
+        id: 'TR-' + String(defaultListings.length + customListings.length + 1).padStart(3, '0'),
+        name: document.getElementById('trophyName').value.trim(),
+        price: document.getElementById('trophyPrice').value.trim(),
+        oldPrice: document.getElementById('trophyOldPrice').value.trim(),
+        status: document.getElementById('trophyStatus').value,
+        category: document.getElementById('trophyCategory').value,
+        condition: document.getElementById('trophyCondition').value.trim(),
+        contact: document.getElementById('trophyContact').value.trim(),
+        description: document.getElementById('trophyDescription').value.trim()
+      };
+      customListings.unshift(item);
+      localStorage.setItem(storageKey, JSON.stringify(customListings));
+      postForm.reset();
+      setFeedback(labels.published, 'is-ok');
+      renderListings();
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      localStorage.removeItem(storageKey);
+      setFeedback(labels.cleared, 'is-ok');
+      renderListings();
+    });
+  }
+
+  categoryButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      activeCategory = button.getAttribute('data-category') || 'all';
+      categoryButtons.forEach(function(other) {
+        other.classList.toggle('is-active', other === button);
+      });
+      renderListings();
+    });
+  });
+
+  renderListings();
 })();
 
 

@@ -519,6 +519,13 @@ body.cursor-active .cursor { opacity: 1; }
 }
 .terminal-prompt { color: var(--tx-dim); }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
 .cursor-blink {
   animation: blink 1.1s step-end infinite;
   color: var(--ac-bright);
@@ -559,7 +566,328 @@ body.cursor-active .cursor { opacity: 1; }
   border-color: var(--ac-bright);
   box-shadow: 0 0 22px rgba(121,178,104,.12);
 }
+.btn-primary--alt {
+  border-color: var(--bd-normal);
+  color: var(--tx-muted);
+}
+.btn-primary--alt:hover {
+  color: var(--ac-bright);
+  border-color: var(--ac-mid);
+}
 .btn-bracket { color: var(--tx-muted); margin: 0 4px; }
+
+/* ────────────────────────────────────────────────
+   TROPHY MARKET
+──────────────────────────────────────────────── */
+.trophies-section {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(121,178,104,.08), transparent 28%),
+    linear-gradient(180deg, var(--bg-root), var(--bg-surface));
+}
+
+.trophy-panel {
+  border: 1px solid var(--bd-normal);
+  background: linear-gradient(135deg, rgba(97,125,78,.09), transparent 38%), var(--bg-card);
+  padding: 24px;
+}
+
+.trophy-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: center;
+  padding-bottom: 22px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--bd-faint);
+}
+
+.trophy-kicker {
+  display: block;
+  color: var(--ac-bright);
+  font-family: var(--ff-display);
+  font-size: 1.55rem;
+  letter-spacing: .2em;
+  margin-bottom: 8px;
+}
+
+.trophy-intro p {
+  color: var(--tx-muted);
+  max-width: 720px;
+  font-size: .82rem;
+  letter-spacing: .06em;
+}
+
+.trophy-jump {
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.trophy-notice {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--amber-dim);
+  background: rgba(90,72,32,.12);
+  color: var(--tx-muted);
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  font-size: .72rem;
+  letter-spacing: .08em;
+}
+.trophy-notice strong {
+  color: var(--amber-mid);
+  font-weight: normal;
+}
+
+.trophy-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 24px;
+}
+
+.trophy-category {
+  border: 1px solid var(--bd-normal);
+  background: rgba(215,222,207,.05);
+  color: var(--tx-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: .68rem;
+  letter-spacing: .14em;
+  padding: 8px 12px;
+}
+.trophy-category:hover,
+.trophy-category.is-active {
+  color: var(--ac-bright);
+  border-color: var(--ac-mid);
+  background: rgba(97,125,78,.12);
+}
+
+.trophy-ledger-head {
+  display: flex;
+  justify-content: space-between;
+  color: var(--tx-dim);
+  font-size: .68rem;
+  letter-spacing: .2em;
+  margin-bottom: 14px;
+}
+
+.trophy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.trophy-card {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--bd-normal);
+  background:
+    linear-gradient(var(--bd-faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bd-faint) 1px, transparent 1px),
+    var(--bg-root);
+  background-size: 26px 26px, 26px 26px, auto;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.trophy-card::before {
+  content: '◆';
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  color: var(--tx-ghost);
+  font-size: 1.2rem;
+}
+
+.trophy-id {
+  color: var(--tx-dim);
+  font-size: .62rem;
+  letter-spacing: .18em;
+  margin-bottom: 14px;
+}
+
+.trophy-name {
+  color: var(--tx-bright);
+  font-family: var(--ff-display);
+  font-size: 1.7rem;
+  letter-spacing: .12em;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.trophy-card.is-hidden { display: none; }
+
+.trophy-category-label,
+.trophy-condition {
+  color: var(--tx-dim);
+  font-size: .62rem;
+  letter-spacing: .16em;
+}
+
+.trophy-desc {
+  color: var(--tx-muted);
+  font-size: .76rem;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.trophy-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.trophy-price,
+.trophy-old-price,
+.trophy-status {
+  border: 1px solid var(--bd-normal);
+  padding: 4px 8px;
+  color: var(--ac-bright);
+  font-size: .66rem;
+  letter-spacing: .12em;
+}
+.trophy-old-price {
+  color: var(--tx-dim);
+  text-decoration: line-through;
+}
+
+.trophy-status--reserved { color: var(--amber-mid); }
+.trophy-status--sold { color: var(--red-mid); }
+
+.trophy-buy {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--tx-muted);
+  text-decoration: none;
+  font-size: .66rem;
+  letter-spacing: .14em;
+}
+.trophy-buy:hover { color: var(--ac-bright); }
+
+.how-order {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.how-order article {
+  border: 1px solid var(--bd-normal);
+  background: rgba(7,11,8,.55);
+  padding: 15px;
+}
+.how-order span {
+  display: block;
+  color: var(--tx-ghost);
+  font-family: var(--ff-display);
+  font-size: 1.7rem;
+  margin-bottom: 4px;
+}
+.how-order strong {
+  display: block;
+  color: var(--tx-bright);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  font-weight: normal;
+  margin-bottom: 8px;
+}
+.how-order p {
+  color: var(--tx-muted);
+  font-size: .72rem;
+  line-height: 1.6;
+}
+
+.seller-console {
+  margin-top: 24px;
+  border: 1px solid var(--bd-normal);
+  background: rgba(7,11,8,.72);
+  padding: 22px;
+}
+
+.seller-console-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--tx-dim);
+  font-size: .68rem;
+  letter-spacing: .18em;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--bd-faint);
+}
+.seller-console-head strong {
+  color: var(--amber-mid);
+  font-weight: normal;
+}
+
+.seller-code-form label,
+.seller-post-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--tx-muted);
+  font-size: .68rem;
+  letter-spacing: .12em;
+}
+
+.seller-code-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.seller-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.seller-code-form input,
+.seller-post-form input,
+.seller-post-form select,
+.seller-post-form textarea {
+  width: 100%;
+  border: 1px solid var(--bd-normal);
+  background: rgba(215,222,207,.07);
+  color: var(--tx-bright);
+  font: inherit;
+  font-size: .76rem;
+  letter-spacing: .08em;
+  padding: 12px;
+  outline: none;
+}
+.seller-post-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+.seller-code-form input:focus,
+.seller-post-form input:focus,
+.seller-post-form select:focus,
+.seller-post-form textarea:focus {
+  border-color: var(--ac-mid);
+  box-shadow: 0 0 0 2px rgba(97,125,78,.18);
+}
+
+.seller-feedback {
+  color: var(--tx-dim);
+  font-size: .68rem;
+  letter-spacing: .08em;
+  margin-top: 10px;
+}
+.seller-feedback.is-ok { color: var(--ac-bright); }
+.seller-feedback.is-error { color: var(--red-mid); }
+
+.seller-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
 
 /* Signal button */
 .btn-signal {
@@ -1118,6 +1446,13 @@ body.cursor-active .cursor { opacity: 1; }
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .trophy-grid,
+  .how-order {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .trophy-intro {
+    grid-template-columns: 1fr;
+  }
   .project-card--wide {
     grid-column: span 2;
   }
@@ -1152,6 +1487,18 @@ body.cursor-active .cursor { opacity: 1; }
   .bust-stage { min-height: 360px; grid-template-columns: 42px minmax(0, 1fr) 42px; }
   .bust-views { grid-template-columns: 1fr; }
   .bust-view, .bust-view--wide { aspect-ratio: 1.45 / 1; }
+  .trophy-grid,
+  .how-order,
+  .seller-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .seller-code-row {
+    grid-template-columns: 1fr;
+  }
+  .trophy-notice {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 
   /* Disable custom cursor on touch */
   body { cursor: auto; }
