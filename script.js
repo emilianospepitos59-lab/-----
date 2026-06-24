@@ -532,3 +532,44 @@ function pause(ms) {
     updateEnglishAttributes();
   }
 })();
+
+
+/* BUST ARCHIVE BROWSER */
+(function initBustBrowser() {
+  var stage = document.querySelector('.bust-stage');
+  var reference = document.getElementById('bustReference');
+  var previous = document.getElementById('bustPrevious');
+  var next = document.getElementById('bustNext');
+  var dots = document.querySelectorAll('.bust-dot');
+  if (!stage || !reference || !previous || !next || !dots.length) return;
+
+  var activeIndex = 0;
+
+  function selectBust(index) {
+    activeIndex = (index + dots.length) % dots.length;
+    reference.textContent = 'BUST-00' + (activeIndex + 1);
+    dots.forEach(function(dot, dotIndex) {
+      var selected = dotIndex === activeIndex;
+      dot.classList.toggle('is-active', selected);
+      dot.setAttribute('aria-selected', String(selected));
+    });
+  }
+
+  previous.addEventListener('click', function() { selectBust(activeIndex - 1); });
+  next.addEventListener('click', function() { selectBust(activeIndex + 1); });
+  dots.forEach(function(dot, index) {
+    dot.addEventListener('click', function() { selectBust(index); });
+  });
+  stage.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowLeft') selectBust(activeIndex - 1);
+    if (event.key === 'ArrowRight') selectBust(activeIndex + 1);
+  });
+
+  if (siteLanguage === 'en') {
+    document.getElementById('bustsTitle').textContent = 'BUST ARCHIVE';
+    document.getElementById('bustSearch').placeholder = 'SEARCH THE ARCHIVE';
+    document.querySelector('.nav-link[data-section="busts"]').textContent = 'BUSTS';
+    previous.setAttribute('aria-label', 'Previous bust');
+    next.setAttribute('aria-label', 'Next bust');
+  }
+})();

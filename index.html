@@ -41,6 +41,7 @@
     </div>
     <ul class="nav-links" id="navLinks" role="list">
       <li><a href="#home"     class="nav-link" data-section="home">ГОЛОВНА</a></li>
+      <li><a href="#busts"    class="nav-link" data-section="busts">БЮСТИ</a></li>
       <li><a href="#about"    class="nav-link" data-section="about">ПРО&nbsp;МЕНЕ</a></li>
       <li><a href="#projects" class="nav-link" data-section="projects">ПРОЄКТИ</a></li>
       <li><a href="#gallery"  class="nav-link" data-section="gallery">ГАЛЕРЕЯ</a></li>
@@ -99,6 +100,45 @@
   <!-- ─────────────────────────────────────────────
        SECTION 02 — ПРО МЕНЕ
   ───────────────────────────────────────────── -->
+  <section id="busts" class="section busts-section" aria-labelledby="bustsTitle">
+    <div class="container">
+      <header class="section-header reveal">
+        <span class="section-label">// СЕКЦІЯ 02</span>
+        <h2 class="section-title" id="bustsTitle">АРХІВ БЮСТІВ</h2>
+      </header>
+
+      <div class="bust-browser reveal" aria-roledescription="carousel" aria-label="Архів бюстів">
+        <div class="bust-search" role="search">
+          <label class="sr-only" for="bustSearch">Пошук у архіві бюстів</label>
+          <input id="bustSearch" type="search" placeholder="ПОШУК У АРХІВІ" autocomplete="off">
+          <span class="bust-search-icon" aria-hidden="true"></span>
+        </div>
+
+        <div class="bust-stage" tabindex="0">
+          <button class="bust-control" type="button" id="bustPrevious" aria-label="Попередній бюст">&#8592;</button>
+          <div class="bust-placeholder" aria-live="polite">
+            <span class="bust-placeholder-ref" id="bustReference">BUST-001</span>
+            <span class="bust-placeholder-title">WORK IN PROGRESS</span>
+            <span class="bust-placeholder-subtitle">ARCHIVE IMAGE PENDING</span>
+          </div>
+          <button class="bust-control" type="button" id="bustNext" aria-label="Наступний бюст">&#8594;</button>
+        </div>
+
+        <div class="bust-pagination" role="tablist" aria-label="Вибір бюста">
+          <button class="bust-dot is-active" type="button" data-bust="0" role="tab" aria-selected="true" aria-label="Бюст 1"></button>
+          <button class="bust-dot" type="button" data-bust="1" role="tab" aria-selected="false" aria-label="Бюст 2"></button>
+          <button class="bust-dot" type="button" data-bust="2" role="tab" aria-selected="false" aria-label="Бюст 3"></button>
+        </div>
+      </div>
+
+      <div class="bust-views reveal" aria-label="Додаткові зображення бюстів">
+        <article class="bust-view"><span>VIEW-01</span><strong>WORK IN PROGRESS</strong></article>
+        <article class="bust-view bust-view--wide"><span>VIEW-02</span><strong>WORK IN PROGRESS</strong></article>
+        <article class="bust-view"><span>VIEW-03</span><strong>WORK IN PROGRESS</strong></article>
+      </div>
+    </div>
+  </section>
+
   <section id="about" class="section about-section" aria-labelledby="aboutTitle">
     <div class="container">
       <header class="section-header reveal">
