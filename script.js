@@ -369,6 +369,7 @@ function pause(ms) {
   var textMap = {
     'СИСТЕМА ОНЛАЙН': 'SYSTEM ONLINE',
     'ГОЛОВНА': 'HOME',
+    'БЮСТИ': 'BUSTS',
     'ПРО МЕНЕ': 'ABOUT ME',
     'ПРОЄКТИ': 'PROJECTS',
     'ГАЛЕРЕЯ': 'GALLERY',
@@ -386,6 +387,10 @@ function pause(ms) {
     '// СЕКЦІЯ 04': '// SECTION 04',
     '// СЕКЦІЯ 05': '// SECTION 05',
     '// СЕКЦІЯ 06': '// SECTION 06',
+    '// СЕКЦІЯ 07': '// SECTION 07',
+    'АРХІВ БЮСТІВ': 'BUST ARCHIVE',
+    'В РОЗРОБЦІ': 'IN PROGRESS',
+    'ЗОБРАЖЕННЯ АРХІВУ ОЧІКУЄТЬСЯ': 'ARCHIVE IMAGE PENDING',
     'ПЕРЕВІРЕНО': 'VERIFIED',
     'ЗАСЕКРЕЧЕНО': 'CLASSIFIED',
     'ІМ\'Я:': 'NAME:',
@@ -506,11 +511,25 @@ function pause(ms) {
       'content',
       'NOT-VERY-SECRET — a personal archive of strange ideas and accidental projects'
     );
-    document.getElementById('nav').setAttribute('aria-label', 'Main navigation');
-    document.getElementById('navToggle').setAttribute('aria-label', 'Open menu');
-    document.getElementById('openFileBtn').setAttribute('aria-label', 'Open dossier');
-    document.getElementById('sendSignalBtn').setAttribute('aria-label', 'Send signal');
-    document.getElementById('closeModal').setAttribute('aria-label', 'Close');
+    function setAttr(selector, attr, value) {
+      var el = document.querySelector(selector);
+      if (el) el.setAttribute(attr, value);
+    }
+
+    setAttr('#nav', 'aria-label', 'Main navigation');
+    setAttr('#navToggle', 'aria-label', 'Open menu');
+    setAttr('#openFileBtn', 'aria-label', 'Open dossier');
+    setAttr('#sendSignalBtn', 'aria-label', 'Send signal');
+    setAttr('#closeModal', 'aria-label', 'Close');
+    setAttr('#busts', 'aria-label', 'Bust archive');
+    setAttr('.bust-browser', 'aria-label', 'Bust archive');
+    setAttr('label[for="bustSearch"]', 'aria-label', 'Search the bust archive');
+    setAttr('#bustPrevious', 'aria-label', 'Previous bust');
+    setAttr('#bustNext', 'aria-label', 'Next bust');
+    setAttr('.bust-pagination', 'aria-label', 'Bust selection');
+    document.querySelectorAll('.bust-dot').forEach(function(dot, index) {
+      dot.setAttribute('aria-label', 'Bust ' + (index + 1));
+    });
   }
 
   function setLanguage(language) {
@@ -538,20 +557,65 @@ function pause(ms) {
 (function initBustBrowser() {
   var stage = document.querySelector('.bust-stage');
   var reference = document.getElementById('bustReference');
+  var title = document.querySelector('.bust-placeholder-title');
+  var subtitle = document.querySelector('.bust-placeholder-subtitle');
+  var search = document.getElementById('bustSearch');
   var previous = document.getElementById('bustPrevious');
   var next = document.getElementById('bustNext');
   var dots = document.querySelectorAll('.bust-dot');
-  if (!stage || !reference || !previous || !next || !dots.length) return;
+  if (!stage || !reference || !title || !subtitle || !previous || !next || !dots.length) return;
 
   var activeIndex = 0;
+  var busts = siteLanguage === 'en' ? [
+    { ref: 'BUST-001', title: 'IN PROGRESS', subtitle: 'ARCHIVE IMAGE PENDING' },
+    { ref: 'BUST-002', title: 'PROFILE PENDING', subtitle: 'SCULPTURE DATA NOT YET DECLASSIFIED' },
+    { ref: 'BUST-003', title: 'RECONSTRUCTION', subtitle: 'FRAGMENTARY ARCHIVE ENTRY' }
+  ] : [
+    { ref: 'BUST-001', title: 'В РОЗРОБЦІ', subtitle: 'ЗОБРАЖЕННЯ АРХІВУ ОЧІКУЄТЬСЯ' },
+    { ref: 'BUST-002', title: 'ПРОФІЛЬ ОЧІКУЄТЬСЯ', subtitle: 'ДАНІ СКУЛЬПТУРИ ЩЕ НЕ РОЗСЕКРЕЧЕНО' },
+    { ref: 'BUST-003', title: 'РЕКОНСТРУКЦІЯ', subtitle: 'ФРАГМЕНТАРНИЙ ЗАПИС АРХІВУ' }
+  ];
 
   function selectBust(index) {
     activeIndex = (index + dots.length) % dots.length;
-    reference.textContent = 'BUST-00' + (activeIndex + 1);
+    var bust = busts[activeIndex];
+    reference.textContent = bust.ref;
+    title.textContent = bust.title;
+    subtitle.textContent = bust.subtitle;
     dots.forEach(function(dot, dotIndex) {
       var selected = dotIndex === activeIndex;
       dot.classList.toggle('is-active', selected);
       dot.setAttribute('aria-selected', String(selected));
+    });
+  }
+
+  function searchBusts() {
+    if (!search) return;
+    var query = search.value.trim().toLowerCase();
+    if (!query) {
+      selectBust(activeIndex);
+      return;
+    }
+
+    var matchIndex = busts.findIndex(function(bust) {
+      return [bust.ref, bust.title, bust.subtitle].some(function(value) {
+        return value.toLowerCase().indexOf(query) !== -1;
+      });
+    });
+
+    if (matchIndex >= 0) {
+      selectBust(matchIndex);
+      return;
+    }
+
+    reference.textContent = siteLanguage === 'en' ? 'SEARCH-404' : 'ПОШУК-404';
+    title.textContent = siteLanguage === 'en' ? 'NO MATCH' : 'ЗБІГІВ НЕ ЗНАЙДЕНО';
+    subtitle.textContent = siteLanguage === 'en'
+      ? 'TRY BUST-001, BUST-002, OR BUST-003'
+      : 'СПРОБУЙТЕ BUST-001, BUST-002 АБО BUST-003';
+    dots.forEach(function(dot) {
+      dot.classList.remove('is-active');
+      dot.setAttribute('aria-selected', 'false');
     });
   }
 
@@ -564,12 +628,18 @@ function pause(ms) {
     if (event.key === 'ArrowLeft') selectBust(activeIndex - 1);
     if (event.key === 'ArrowRight') selectBust(activeIndex + 1);
   });
+  if (search) search.addEventListener('input', searchBusts);
 
   if (siteLanguage === 'en') {
-    document.getElementById('bustsTitle').textContent = 'BUST ARCHIVE';
-    document.getElementById('bustSearch').placeholder = 'SEARCH THE ARCHIVE';
-    document.querySelector('.nav-link[data-section="busts"]').textContent = 'BUSTS';
+    var bustsTitle = document.getElementById('bustsTitle');
+    var bustSearch = document.getElementById('bustSearch');
+    var bustNav = document.querySelector('.nav-link[data-section="busts"]');
+    if (bustsTitle) bustsTitle.textContent = 'BUST ARCHIVE';
+    if (bustSearch) bustSearch.placeholder = 'SEARCH THE ARCHIVE';
+    if (bustNav) bustNav.textContent = 'BUSTS';
     previous.setAttribute('aria-label', 'Previous bust');
     next.setAttribute('aria-label', 'Next bust');
   }
+
+  selectBust(0);
 })();
